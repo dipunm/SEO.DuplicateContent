@@ -34,12 +34,6 @@ namespace ReturnNull.CanonicalRoutes.Internal
 
             var routeInfo = new RouteInfo(httpContext, routeData.Route, routeData.Values);
             var provisions = new UserProvisions(_sensitiveParameters, _canonicalQuerystrings);
-
-            var shouldRedirect = _redirectRules.Any(r =>
-                r.HasBeenViolated(originalUrl, routeInfo, provisions));
-
-            var processors = shouldRedirect ? _redirectRules : _rewriteRules;
-
             var plan = new UrlPlan
             {
                 Authority = originalUrl.GetLeftPart(UriPartial.Authority),
@@ -48,27 +42,18 @@ namespace ReturnNull.CanonicalRoutes.Internal
                 Fragment = originalUrl.Fragment
             };
 
-            foreach (var rule in processors)
+            var shouldRedirect = _redirectRules.Any(rule =>
+                rule.HasBeenViolated(originalUrl, routeInfo, provisions));
+
+            var canonicalRules = shouldRedirect ? _redirectRules : _rewriteRules;
+            foreach (var rule in canonicalRules)
             {
                 rule.CorrectPlan(plan, routeInfo, provisions);
             }
 
-            var correctPath = routeData.Route
-                .GetVirtualPath(httpContext.Request.RequestContext, plan.Values)
-                ?.VirtualPath;
-            if (correctPath == null)
-                throw new InvalidOperationException("Unable to generate redirect url.");
-
-            var correctedUrl = new UriBuilder(plan.Authority)
-            {
-                Path = correctPath,
-                Query = plan.Query,
-                Fragment = plan.Fragment
-            }.Uri;
-
             return new CanonicalRuleSetResult
             {
-                Url = correctedUrl,
+                Url = plan.Execute(httpContext, routeData.Route),
                 ShouldRedirect = shouldRedirect
             };
         }

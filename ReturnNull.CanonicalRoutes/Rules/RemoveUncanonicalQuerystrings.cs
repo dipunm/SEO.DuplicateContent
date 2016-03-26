@@ -6,7 +6,7 @@ using ReturnNull.CanonicalRoutes.Rules.Abstract;
 
 namespace ReturnNull.CanonicalRoutes.Rules
 {
-    public class RemoveUnconanicalQuerystrings : ICanonicalRule {
+    public class RemoveUncanonicalQuerystrings : ICanonicalRule {
         public bool HasBeenViolated(Uri url, RouteInfo routeInfo, UserProvisions provisions)
         {
             return url.Query.ToKeyValuePairs()

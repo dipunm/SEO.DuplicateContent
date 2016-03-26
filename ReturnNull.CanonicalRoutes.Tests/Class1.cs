@@ -34,8 +34,11 @@ namespace ReturnNull.CanonicalRoutes.Tests
             - Responds to canonicalizer response properly.
 
         Test Canonicalizer
+            - 
         Test QuerystringHelper
-        Test ConanicalCollection
+        
+        Test CanonicalCollection
+        
         */
 
 

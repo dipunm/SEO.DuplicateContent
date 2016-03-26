@@ -27,7 +27,7 @@ namespace ReturnNull.CanonicalRoutes.Configuration
                 },
                 RewriteRules =
                 {
-                    new RemoveUnconanicalQuerystrings(),
+                    new RemoveUncanonicalQuerystrings(),
                     new OrderQuerystrings()
                 }
             };

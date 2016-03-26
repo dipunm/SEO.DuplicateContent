@@ -27,8 +27,8 @@ namespace ReturnNull.CanonicalRoutes.Mvc
         {
             var ruleSet = CanonicalRuleSetCollection.Rules.Get(settings.Ruleset);
             var canonicalizer = new Canonicalizer(
-                ruleSet.RewriteRules, 
-                ruleSet.RedirectRules, 
+                ruleSet.RewriteRules, //new CanonicalRuleTracingCollection
+                ruleSet.RedirectRules, //new CanonicalRuleTracingCollection 
                 settings.Sensitive, 
                 settings.Query);
 

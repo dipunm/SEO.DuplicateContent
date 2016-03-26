@@ -80,7 +80,7 @@
     <Compile Include="Rules\MatchCaseWithRoute.cs" />
     <Compile Include="Rules\OrderQuerystrings.cs" />
     <Compile Include="Rules\RemoveRepeatingSlashes.cs" />
-    <Compile Include="Rules\RemoveUnconanicalQuerystrings.cs" />
+    <Compile Include="Rules\RemoveUncanonicalQuerystrings.cs" />
     <Compile Include="Rules\RemoveTrailingSlash.cs" />
     <Compile Include="Rules\LowercaseQuerystringValues.cs" />
     <Compile Include="Rules\LowercaseQuerystringKeys.cs" />

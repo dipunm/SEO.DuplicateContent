@@ -1,0 +1,12 @@
+using System;
+using ReturnNull.CanonicalRoutes.Rules.Abstract;
+
+namespace ReturnNull.CanonicalRoutes.Rules
+{
+    public class RemoveTrailingSlash : CanonicalSnitch {
+        public override bool HasBeenViolated(Uri url, RouteInfo routeInfo, UserProvisions provisions)
+        {
+            return url.AbsolutePath != "/" && url.AbsolutePath.EndsWith("/");
+        }
+    }
+}

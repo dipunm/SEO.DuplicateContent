@@ -7,21 +7,21 @@ using ReturnNull.CanonicalRoutes.Rules.Abstract;
 namespace ReturnNull.CanonicalRoutes.Rules
 {
     public class MatchCaseWithRoute : ICanonicalRule {
-        public bool HasBeenViolated(Uri url, RouteInfo routeInfo, UserProvisions provisions)
+        public bool HasBeenViolated(RequestData requestData, UserProvisions provisions)
         {
-            var urlPath = url.AbsolutePath;
+            var urlPath = requestData.RequestUri.AbsolutePath;
             if (urlPath == "/") return false;
 
             var loweredRouteValues = new RouteValueDictionary();
-            foreach (var routeValue in routeInfo.RouteValues)
+            foreach (var routeValue in requestData.RouteValues)
             {
                 var sensitive = provisions.SensitiveParameters.Contains(routeValue.Key,
                     StringComparer.InvariantCultureIgnoreCase) || routeValue.Value.GetType() != typeof(string);
                 loweredRouteValues.Add(routeValue.Key, sensitive ? routeValue.Value : routeValue.Value.ToString().ToLowerInvariant());
             }
 
-            var generatedPath = "/" + routeInfo.Route.GetVirtualPath(
-                routeInfo.HttpContext.Request.RequestContext,
+            var generatedPath = "/" + requestData.Route.GetVirtualPath(
+                requestData.HttpContext.Request.RequestContext,
                 loweredRouteValues)?.VirtualPath;
 
             if (string.IsNullOrEmpty(generatedPath))
@@ -33,7 +33,7 @@ namespace ReturnNull.CanonicalRoutes.Rules
             return !generatedPath.Equals(urlPath, StringComparison.Ordinal);
         }
 
-        public void CorrectPlan(UrlPlan plan, RouteInfo routeInfo, UserProvisions provisions)
+        public void CorrectPlan(UrlPlan plan, RequestData requestData, UserProvisions provisions)
         {
             var loweredRouteValues = new RouteValueDictionary();
             foreach (var routeValue in plan.Values)

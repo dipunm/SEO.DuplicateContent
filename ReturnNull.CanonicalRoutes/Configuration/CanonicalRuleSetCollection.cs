@@ -21,7 +21,10 @@ namespace ReturnNull.CanonicalRoutes.Configuration
 
         public CanonicalRuleSet Get(string name)
         {
-            return _ruleSets[name];
+            if(_ruleSets.ContainsKey(name))
+                return _ruleSets[name];
+
+            throw new ArgumentException($"No rulesets found by the name '{name}'", nameof(name));
         }
 
         public static CanonicalRuleSetCollection Rules { get; } = new CanonicalRuleSetCollection();

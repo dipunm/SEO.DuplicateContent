@@ -15,12 +15,12 @@ namespace ReturnNull.CanonicalRoutes.Rules
             _scheme = scheme;
         }
 
-        public bool HasBeenViolated(Uri url, RouteInfo routeInfo, UserProvisions provisions)
+        public bool HasBeenViolated(RequestData requestData, UserProvisions provisions)
         {
-            return url.Scheme != _scheme;
+            return requestData.RequestUri.Scheme != _scheme;
         }
 
-        public void CorrectPlan(UrlPlan plan, RouteInfo routeInfo, UserProvisions provisions)
+        public void CorrectPlan(UrlPlan plan, RequestData requestData, UserProvisions provisions)
         {
             var builder = new UriBuilder(plan.Authority)
             {

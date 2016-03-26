@@ -18,9 +18,9 @@ namespace ReturnNull.CanonicalRoutes.Rules
             _slugProvider = slugProvider;
         }
 
-        public bool HasBeenViolated(Uri url, RouteInfo routeInfo, UserProvisions provisions)
+        public bool HasBeenViolated(RequestData requestData, UserProvisions provisions)
         {
-            return routeInfo.RouteValues.Any(IsWrongSlug);
+            return requestData.RouteValues.Any(IsWrongSlug);
         }
 
         private bool IsWrongSlug(KeyValuePair<string, object> parameters)
@@ -33,7 +33,7 @@ namespace ReturnNull.CanonicalRoutes.Rules
             return false;
         }
 
-        public void CorrectPlan(UrlPlan plan, RouteInfo routeInfo, UserProvisions provisions)
+        public void CorrectPlan(UrlPlan plan, RequestData requestData, UserProvisions provisions)
         {
             var slugParams = plan.Values.Where(IsWrongSlug);
             foreach (var param in slugParams)

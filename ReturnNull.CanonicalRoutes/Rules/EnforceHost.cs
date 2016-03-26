@@ -23,12 +23,14 @@ namespace ReturnNull.CanonicalRoutes.Rules
             _port = port;
         }
 
-        public bool HasBeenViolated(Uri url, RouteInfo routeInfo, UserProvisions provisions)
+        public bool HasBeenViolated(RequestData requestData, UserProvisions provisions)
         {
-            return url.Host == _host && (_port == null ? url.IsDefaultPort : _port == url.Port);
+            return requestData.RequestUri.Host == _host && (_port == null ? 
+                requestData.RequestUri.IsDefaultPort : 
+                _port == requestData.RequestUri.Port);
         }
 
-        public void CorrectPlan(UrlPlan plan, RouteInfo routeInfo, UserProvisions provisions)
+        public void CorrectPlan(UrlPlan plan, RequestData requestData, UserProvisions provisions)
         {
             var builder = new UriBuilder(plan.Authority);
 

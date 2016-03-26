@@ -7,19 +7,19 @@ using ReturnNull.CanonicalRoutes.Rules.Abstract;
 namespace ReturnNull.CanonicalRoutes.Rules
 {
     public class OrderQuerystrings : ICanonicalRule {
-        public bool HasBeenViolated(Uri url, RouteInfo routeInfo, UserProvisions provisions)
+        public bool HasBeenViolated(RequestData requestData, UserProvisions provisions)
         {
-            var queryKeys = url.Query.ToKeyValuePairs()
+            var queryKeys = requestData.RequestUri.Query.ToKeyValuePairs()
                   .TakeWhile(pair => provisions.CanonicalQuerystrings.Contains(pair.Key, StringComparer.InvariantCultureIgnoreCase))
                   .Select(p => p.Key);
-            var orderedQueryKeys = url.Query.ToKeyValuePairs()
+            var orderedQueryKeys = requestData.RequestUri.Query.ToKeyValuePairs()
                 .Where(pair => provisions.CanonicalQuerystrings.Contains(pair.Key, StringComparer.InvariantCultureIgnoreCase))
                 .OrderBy(pair => pair.Key)
                 .Select(pair => pair.Key);
             return !queryKeys.SequenceEqual(orderedQueryKeys);
         }
 
-        public void CorrectPlan(UrlPlan plan, RouteInfo routeInfo, UserProvisions provisions)
+        public void CorrectPlan(UrlPlan plan, RequestData requestData, UserProvisions provisions)
         {
             var excessPairs = plan.Query.ToKeyValuePairs()
                 .Where(pair => !provisions.CanonicalQuerystrings.Contains(pair.Key, StringComparer.InvariantCultureIgnoreCase));

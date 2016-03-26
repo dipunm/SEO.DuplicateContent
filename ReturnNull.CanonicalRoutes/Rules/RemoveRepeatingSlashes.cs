@@ -1,12 +1,13 @@
 ﻿using System;
+using ReturnNull.CanonicalRoutes.Models;
 using ReturnNull.CanonicalRoutes.Rules.Abstract;
 
 namespace ReturnNull.CanonicalRoutes.Rules
 {
     public class RemoveRepeatingSlashes : CanonicalRuleSnitch {
-        public override bool HasBeenViolated(Uri url, RouteInfo routeInfo, UserProvisions provisions)
+        public override bool HasBeenViolated(RequestData requestData, UserProvisions provisions)
         {
-            return url.AbsolutePath.Contains("//");
+            return requestData.RequestUri.AbsolutePath.Contains("//");
         }
     }
 }

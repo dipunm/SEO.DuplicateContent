@@ -1,10 +1,17 @@
 using System;
+using ReturnNull.CanonicalRoutes.Models;
 
 namespace ReturnNull.CanonicalRoutes.Internal
 {
     internal class CanonicalRuleSetResult
     {
-        public bool ShouldRedirect { get; set; }
-        public Uri Url { get; set; }
+        public CanonicalRuleSetResult(bool shouldRedirect, UrlPlan plan)
+        {
+            ShouldRedirect = shouldRedirect;
+            Plan = plan;
+        }
+
+        public bool ShouldRedirect { get; }
+        public UrlPlan Plan { get; }
     }
 }

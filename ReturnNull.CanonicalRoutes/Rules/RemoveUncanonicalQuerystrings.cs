@@ -7,13 +7,13 @@ using ReturnNull.CanonicalRoutes.Rules.Abstract;
 namespace ReturnNull.CanonicalRoutes.Rules
 {
     public class RemoveUncanonicalQuerystrings : ICanonicalRule {
-        public bool HasBeenViolated(Uri url, RouteInfo routeInfo, UserProvisions provisions)
+        public bool HasBeenViolated(RequestData requestData, UserProvisions provisions)
         {
-            return url.Query.ToKeyValuePairs()
+            return requestData.RequestUri.Query.ToKeyValuePairs()
                 .Any(pair => !provisions.CanonicalQuerystrings.Contains(pair.Key, StringComparer.InvariantCultureIgnoreCase));
         }
 
-        public void CorrectPlan(UrlPlan plan, RouteInfo routeInfo, UserProvisions provisions)
+        public void CorrectPlan(UrlPlan plan, RequestData requestData, UserProvisions provisions)
         {
             var correctedPairs = plan.Query.ToKeyValuePairs()
                    .Where(pair => provisions.CanonicalQuerystrings.Contains(pair.Key, StringComparer.InvariantCultureIgnoreCase));

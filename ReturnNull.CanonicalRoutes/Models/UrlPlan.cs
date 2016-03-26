@@ -1,17 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Routing;
+using ReturnNull.CanonicalRoutes.Rules.Abstract;
 
 namespace ReturnNull.CanonicalRoutes.Models
 {
     public class UrlPlan
     {
+        public UrlPlan(RequestData requestData)
+        {
+            Query = requestData.RequestUri.Query;
+            Authority = requestData.RequestUri.GetLeftPart(UriPartial.Authority);
+            Values = new RouteValueDictionary(requestData.RouteValues);
+        }
         public RouteValueDictionary Values { get; set; }
         public string Query { get; set; }
-        public string Fragment { get; set; }
         public string Authority { get; set; }
 
-        public Uri Execute(HttpContextBase httpContext, RouteBase route)
+        public Uri GenerateUrl(HttpContextBase httpContext, RouteBase route)
         {
             var correctPath = route
                 .GetVirtualPath(httpContext.Request.RequestContext, Values)
@@ -23,7 +30,6 @@ namespace ReturnNull.CanonicalRoutes.Models
             {
                 Path = correctPath,
                 Query = Query,
-                Fragment = Fragment
             }.Uri;
         }
     }

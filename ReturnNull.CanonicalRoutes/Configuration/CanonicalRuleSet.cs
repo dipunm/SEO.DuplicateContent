@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using ReturnNull.CanonicalRoutes.Rules;
 using ReturnNull.CanonicalRoutes.Rules.Abstract;
@@ -9,8 +10,9 @@ namespace ReturnNull.CanonicalRoutes.Configuration
 {
     public class CanonicalRuleSet
     {
-        public IList<ICanonicalRule> RedirectRules { get; } = new List<ICanonicalRule>();
-        public IList<ICanonicalRule> RewriteRules { get; } = new List<ICanonicalRule>();
+        public virtual IList<ICanonicalRule> RedirectRules { get; } = new List<ICanonicalRule>();
+        public virtual IList<ICanonicalRule> RewriteRules { get; } = new List<ICanonicalRule>();
+        
 
         public static CanonicalRuleSet Recommended(Uri preferredAuthority = null, ISlugProvider slugProvider = null)
         {

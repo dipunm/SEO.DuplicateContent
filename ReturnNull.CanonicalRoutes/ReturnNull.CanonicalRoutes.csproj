@@ -71,8 +71,10 @@
   <ItemGroup>
     <Compile Include="Configuration\CanonicalRuleSet.cs" />
     <Compile Include="Configuration\CanonicalRuleSetCollection.cs" />
+    <Compile Include="Helpers\RequestHelpers.cs" />
     <Compile Include="Mvc\CanonicalUrlExtensions.cs" />
     <Compile Include="Rules\Abstract\CanonicalRuleSnitch.cs" />
+    <Compile Include="Models\RequestData.cs" />
     <Compile Include="Rules\EnforceCorrectSlug.cs" />
     <Compile Include="Rules\Dependencies\ISlugProvider.cs" />
     <Compile Include="Rules\EnforceHost.cs" />

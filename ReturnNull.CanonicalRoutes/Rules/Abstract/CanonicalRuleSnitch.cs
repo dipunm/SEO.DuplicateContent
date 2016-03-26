@@ -13,9 +13,9 @@ namespace ReturnNull.CanonicalRoutes.Rules.Abstract
     /// </summary>
     public abstract class CanonicalRuleSnitch : ICanonicalRule
     {
-        public abstract bool HasBeenViolated(Uri url, RouteInfo routeInfo, UserProvisions provisions);
+        public abstract bool HasBeenViolated(RequestData requestData, UserProvisions provisions);
 
         //non-overridable NOP method.
-        public void CorrectPlan(UrlPlan plan, RouteInfo routeInfo, UserProvisions provisions){}
+        public void CorrectPlan(UrlPlan plan, RequestData requestData, UserProvisions provisions){}
     }
 }

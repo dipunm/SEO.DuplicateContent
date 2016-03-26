@@ -13,9 +13,9 @@ namespace ReturnNull.CanonicalRoutes.Helpers
                 .Select(split => new KeyValuePair<string, string>(split.First(), split.ElementAtOrDefault(1)));
         }
 
-        public static string ToQuerystring(this IEnumerable<KeyValuePair<string, string>> pairs, bool includeQMark = false)
+        public static string ToQuerystring(this IEnumerable<KeyValuePair<string, string>> pairs)
         {
-            return (includeQMark ? "?" : null) + string.Join("&", pairs.Select(pair => 
+            return string.Join("&", pairs.Select(pair => 
                 string.IsNullOrEmpty(pair.Value) ? 
                     pair.Key : 
                     $"{pair.Key}={pair.Value}"));

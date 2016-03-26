@@ -8,14 +8,14 @@ using ReturnNull.CanonicalRoutes.Rules.Abstract;
 namespace ReturnNull.CanonicalRoutes.Rules
 {
     public class LowercaseQuerystringKeys : ICanonicalRule {
-        public bool HasBeenViolated(Uri url, RouteInfo routeInfo, UserProvisions provisions)
+        public bool HasBeenViolated(RequestData requestData, UserProvisions provisions)
         {
-            return url.Query.ToKeyValuePairs()
+            return requestData.RequestUri.Query.ToKeyValuePairs()
                 .Where(pair => provisions.CanonicalQuerystrings.Contains(pair.Key, StringComparer.InvariantCultureIgnoreCase))
                 .Any(pair => !string.IsNullOrEmpty(pair.Key) && pair.Key.Any(char.IsUpper));
         }
 
-        public void CorrectPlan(UrlPlan plan, RouteInfo routeInfo, UserProvisions provisions)
+        public void CorrectPlan(UrlPlan plan, RequestData requestData, UserProvisions provisions)
         {
             var correctedPairs = plan.Query.ToKeyValuePairs()
                 .Select(pair =>

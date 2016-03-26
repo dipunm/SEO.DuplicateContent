@@ -4,7 +4,7 @@ using ReturnNull.CanonicalRoutes.Rules.Abstract;
 
 namespace ReturnNull.CanonicalRoutes.Rules
 {
-    public class OmitDefaultRouteValues : CanonicalSnitch
+    public class OmitDefaultRouteValues : CanonicalRuleSnitch
     {
         public override bool HasBeenViolated(Uri url, RouteInfo routeInfo, UserProvisions provisions)
         {

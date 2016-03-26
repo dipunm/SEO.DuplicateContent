@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace ReturnNull.CanonicalRoutes.Configuration
 {
-    public class CanonicalCollection
+    public class CanonicalRuleSetCollection
     {
         private readonly Dictionary<string, CanonicalRuleSet> _ruleSets;
-        private CanonicalCollection()
+        private CanonicalRuleSetCollection()
         {
             _ruleSets = new Dictionary<string, CanonicalRuleSet>();
         }
@@ -24,6 +24,6 @@ namespace ReturnNull.CanonicalRoutes.Configuration
             return _ruleSets[name];
         }
 
-        public static CanonicalCollection Rules { get; } = new CanonicalCollection();
+        public static CanonicalRuleSetCollection Rules { get; } = new CanonicalRuleSetCollection();
     }
 }

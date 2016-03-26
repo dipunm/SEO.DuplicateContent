@@ -7,7 +7,11 @@ using ReturnNull.CanonicalRoutes.Models;
 
 namespace ReturnNull.CanonicalRoutes.Rules.Abstract
 {
-    public abstract class CanonicalSnitch : ICanonicalRule
+    /// <summary>
+    /// Helper class, defines a rule that can detect issues with the request, 
+    /// but needs to do nothing to resolve it
+    /// </summary>
+    public abstract class CanonicalRuleSnitch : ICanonicalRule
     {
         public abstract bool HasBeenViolated(Uri url, RouteInfo routeInfo, UserProvisions provisions);
 

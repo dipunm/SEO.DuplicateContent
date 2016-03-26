@@ -5,7 +5,7 @@ using ReturnNull.CanonicalRoutes.Internal;
 
 namespace ReturnNull.CanonicalRoutes.Mvc
 {
-    public class CanonicalFilter : IActionFilter
+    public class CanonicalRulesFilter : IActionFilter
     {
         private static CanonicalAttribute ReadCanonicalizeAttributes(ActionExecutingContext filterContext)
         {
@@ -25,7 +25,7 @@ namespace ReturnNull.CanonicalRoutes.Mvc
 
         private static Canonicalizer CreateCanonicalizer(CanonicalAttribute settings)
         {
-            var ruleSet = CanonicalCollection.Rules.Get(settings.Ruleset);
+            var ruleSet = CanonicalRuleSetCollection.Rules.Get(settings.Ruleset);
             var canonicalizer = new Canonicalizer(
                 ruleSet.RewriteRules, 
                 ruleSet.RedirectRules, 

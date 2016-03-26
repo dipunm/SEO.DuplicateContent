@@ -24,7 +24,7 @@ namespace ReturnNull.CanonicalRoutes.Internal
             _rewriteRules = rewriteRules;
         }
 
-        public CanonicalResult Canonicalize(HttpContextBase httpContext, RouteData routeData)
+        public CanonicalRuleSetResult Canonicalize(HttpContextBase httpContext, RouteData routeData)
         {
             var originalUrl = new UriBuilder(
                 $"{httpContext.Request.Url?.Scheme}://" +
@@ -66,7 +66,7 @@ namespace ReturnNull.CanonicalRoutes.Internal
                 Fragment = plan.Fragment
             }.Uri;
 
-            return new CanonicalResult
+            return new CanonicalRuleSetResult
             {
                 Url = correctedUrl,
                 ShouldRedirect = shouldRedirect

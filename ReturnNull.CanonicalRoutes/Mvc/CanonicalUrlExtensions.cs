@@ -1,12 +1,12 @@
 using System.Web.Mvc;
 
-namespace Routes.Route
+namespace ReturnNull.CanonicalRoutes.Mvc
 {
     public static class CanonicalUrlExtensions
     {
         public static string Canonical(this UrlHelper urlHelper)
         {
-            return urlHelper.RequestContext.RouteData.DataTokens["canonicalUrl"] as string;
+            return urlHelper.RequestContext.RouteData.DataTokens[CanonicalFilter.CanonicalDataKey] as string;
         }
     }
 }

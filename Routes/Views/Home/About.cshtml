@@ -1,4 +1,4 @@
-﻿@using Routes.Route
+﻿@using ReturnNull.CanonicalRoutes.Mvc
 @{
     ViewBag.Title = "About";
     var url = new UriBuilder($"{Request.Url.Scheme}://{Request.ServerVariables["HTTP_HOST"]}{Request.ServerVariables["HTTP_URL"]}{Request.ServerVariables["HTTP_QUERY"]}")

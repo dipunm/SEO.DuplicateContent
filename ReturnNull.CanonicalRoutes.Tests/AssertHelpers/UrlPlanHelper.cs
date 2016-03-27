@@ -1,7 +1,7 @@
 ﻿using ReturnNull.CanonicalRoutes.Models;
 using Shouldly;
 
-namespace ReturnNull.CanonicalRoutes.Tests
+namespace ReturnNull.CanonicalRoutes.Tests.AssertHelpers
 {
     public static class UrlPlanHelper
     {

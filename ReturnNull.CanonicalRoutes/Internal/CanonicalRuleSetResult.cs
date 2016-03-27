@@ -3,9 +3,9 @@ using ReturnNull.CanonicalRoutes.Models;
 
 namespace ReturnNull.CanonicalRoutes.Internal
 {
-    internal class CanonicalRuleSetResult
+    internal class CanonicalRulesetResult
     {
-        public CanonicalRuleSetResult(bool shouldRedirect, UrlPlan plan)
+        public CanonicalRulesetResult(bool shouldRedirect, UrlPlan plan)
         {
             ShouldRedirect = shouldRedirect;
             Plan = plan;

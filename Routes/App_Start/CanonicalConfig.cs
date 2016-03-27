@@ -9,9 +9,9 @@ namespace Routes.App_Start
 {
     public class CanonicalConfig
     {
-        public static void SetupCanonicalRules(CanonicalRuleSetCollection rules)
+        public static void SetupCanonicalRules(CanonicalRulesetCollection rules)
         {
-            rules.Add("Default", CanonicalRuleSet.Recommended(new Uri("http://localhost")));
+            rules.Add("Default", CanonicalRuleset.Recommended(new Uri("http://localhost")));
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Routes
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            CanonicalConfig.SetupCanonicalRules(CanonicalRuleSetCollection.Rules);
+            CanonicalConfig.SetupCanonicalRules(CanonicalRulesetCollection.Rules);
         }
     }
 }

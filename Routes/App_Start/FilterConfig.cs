@@ -9,7 +9,7 @@ namespace Routes
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            filters.Add(new CanonicalRulesFilter());
+            filters.Add(new CanonicalFilter());
         }
     }
 }

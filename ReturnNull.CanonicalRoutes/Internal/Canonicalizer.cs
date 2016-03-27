@@ -7,27 +7,27 @@ namespace ReturnNull.CanonicalRoutes.Internal
 {
     internal class Canonicalizer
     {
-        private readonly CanonicalRuleSet _ruleSet;
+        private readonly CanonicalRuleset _ruleset;
 
-        public Canonicalizer(CanonicalRuleSet ruleSet)
+        public Canonicalizer(CanonicalRuleset ruleset)
         {
-            _ruleSet = ruleSet;
+            _ruleset = ruleset;
         }
 
-        public CanonicalRuleSetResult Canonicalize(RequestData requestData, UserProvisions provisions)
+        public CanonicalRulesetResult Canonicalize(RequestData requestData, UserProvisions provisions)
         {
             var plan = new UrlPlan(requestData);
 
-            var shouldRedirect = _ruleSet.RedirectRules
+            var shouldRedirect = _ruleset.RedirectRules
                 .Any(rule => rule.HasBeenViolated(requestData, provisions));
 
-            var rulesToApply = shouldRedirect ? _ruleSet.RedirectRules : _ruleSet.RewriteRules;
+            var rulesToApply = shouldRedirect ? _ruleset.RedirectRules : _ruleset.RewriteRules;
             foreach (var rule in rulesToApply)
             {
                 rule.CorrectPlan(plan, requestData, provisions);
             }
 
-            return new CanonicalRuleSetResult(shouldRedirect, plan);
+            return new CanonicalRulesetResult(shouldRedirect, plan);
         }
     }
 }

@@ -3,30 +3,30 @@ using System.Collections.Generic;
 
 namespace ReturnNull.CanonicalRoutes.Configuration
 {
-    public class CanonicalRuleSetCollection
+    public class CanonicalRulesetCollection
     {
-        private readonly Dictionary<string, CanonicalRuleSet> _ruleSets;
-        private CanonicalRuleSetCollection()
+        private readonly Dictionary<string, CanonicalRuleset> _rulesets;
+        private CanonicalRulesetCollection()
         {
-            _ruleSets = new Dictionary<string, CanonicalRuleSet>();
+            _rulesets = new Dictionary<string, CanonicalRuleset>();
         }
 
-        public void Add(string name, CanonicalRuleSet ruleSet)
+        public void Add(string name, CanonicalRuleset ruleset)
         {
-            if(_ruleSets.ContainsKey(name))
-                throw new ArgumentException($"RuleSet with name '{name}' already exists.", nameof(name));
+            if(_rulesets.ContainsKey(name))
+                throw new ArgumentException($"Ruleset with name '{name}' already exists.", nameof(name));
 
-            _ruleSets.Add(name, ruleSet);
+            _rulesets.Add(name, ruleset);
         }
 
-        public CanonicalRuleSet Get(string name)
+        public CanonicalRuleset Get(string name)
         {
-            if(_ruleSets.ContainsKey(name))
-                return _ruleSets[name];
+            if(_rulesets.ContainsKey(name))
+                return _rulesets[name];
 
             throw new ArgumentException($"No rulesets found by the name '{name}'", nameof(name));
         }
 
-        public static CanonicalRuleSetCollection Rules { get; } = new CanonicalRuleSetCollection();
+        public static CanonicalRulesetCollection Rules { get; } = new CanonicalRulesetCollection();
     }
 }

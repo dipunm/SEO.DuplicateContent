@@ -8,15 +8,15 @@ using ReturnNull.CanonicalRoutes.Rules.Dependencies;
 
 namespace ReturnNull.CanonicalRoutes.Configuration
 {
-    public class CanonicalRuleSet
+    public class CanonicalRuleset
     {
         public virtual IList<ICanonicalRule> RedirectRules { get; } = new List<ICanonicalRule>();
         public virtual IList<ICanonicalRule> RewriteRules { get; } = new List<ICanonicalRule>();
-        
 
-        public static CanonicalRuleSet Recommended(Uri preferredAuthority = null, ISlugProvider slugProvider = null)
+
+        public static CanonicalRuleset Recommended(Uri preferredAuthority = null, ISlugProvider slugProvider = null)
         {
-            var recommended = new CanonicalRuleSet
+            var recommended = new CanonicalRuleset
             {
                 RedirectRules =
                 {

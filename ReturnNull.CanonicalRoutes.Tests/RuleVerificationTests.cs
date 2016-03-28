@@ -32,9 +32,9 @@ namespace ReturnNull.CanonicalRoutes.Tests
         {
             var mockSlugProvider = new Mock<ISlugProvider>();
             var rule = new EnforceCorrectSlug(mockSlugProvider.Object);
-            
+
             rule.HasBeenViolated(
-                CreateRequestData().WithValues(new RouteValueDictionary() { {"myParamSlug", "this-is-my-value"} }), 
+                CreateRequestData().WithValues(new RouteValueDictionary() { { "myParamSlug", "this-is-my-value" } }),
                 NoProvisions);
 
             mockSlugProvider.Verify(p => p.GetSlug("myParamSlug"));
@@ -114,7 +114,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
         {
             new Action(() => new EnforceHost(host)).ShouldNotThrow();
         }
-        
+
         [Test]
         public void EnforceHost_GivenNegativePort_ShouldThrowArgumentException()
         {
@@ -224,8 +224,8 @@ namespace ReturnNull.CanonicalRoutes.Tests
             var rule = new LowercaseQuerystringKeys();
 
             var violated = rule.HasBeenViolated(
-                CreateRequestData().WithUri(new Uri("http://my-site.com/?Key=value")), 
-                new UserProvisions(new string[0], new [] {"key"}));
+                CreateRequestData().WithUri(new Uri("http://my-site.com/?Key=value")),
+                new UserProvisions(new string[0], new[] { "key" }));
 
             violated.ShouldBe(true);
         }
@@ -256,9 +256,212 @@ namespace ReturnNull.CanonicalRoutes.Tests
         }
 
         [Test]
-        public void LowercaseQuerystringValues()
+        public void LowercaseQuerystringValues_GivenUppercaseLetterInNonCanonicalQueryValue_ShouldNotViolateRule()
         {
-            Assert.Fail();
+            var rule = new LowercaseQuerystringValues();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/?key=value&track=COMPANY-A")),
+                new UserProvisions(new string[0], new[] { "key" }));
+
+
+            violated.ShouldBe(false);
+        }
+
+        [Test]
+        public void LowercaseQuerystringValues_GivenUppercaseLetterInCanonicalQueryValue_ShouldViolateRule()
+        {
+            var rule = new LowercaseQuerystringValues();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/?key=Value")),
+                new UserProvisions(new string[0], new[] { "key" }));
+
+            violated.ShouldBe(true);
+        }
+
+        [Test]
+        public void LowercaseQuerystringValues_GivenNoCanonicalQueryValues_ShouldNotViolateRule()
+        {
+            var rule = new LowercaseQuerystringValues();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/?key=Value")),
+                NoProvisions);
+
+            violated.ShouldBe(false);
+        }
+
+        [Test]
+        public void LowercaseQuerystringValues_GivenUppercaseLetterInSensitiveCanonicalQueryValue_ShouldNotViolateRule()
+        {
+            var rule = new LowercaseQuerystringValues();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/?key=Value")),
+                new UserProvisions(new[] { "key" }, new[] { "key" }));
+
+            violated.ShouldBe(false);
+        }
+
+        [Test]
+        public void OrderQuerystrings_GivenQuerystringsInOrder_ShouldNotViolateRule()
+        {
+            var rule = new OrderQuerystrings();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/?queryA=0&queryB=0&queryc=0&queryd=0")),
+                new UserProvisions(new string[0], new[] { "querya", "queryb", "queryc", "queryd" }));
+
+            violated.ShouldBe(false);
+        }
+
+        [Test]
+        public void OrderQuerystrings_GivenQuerystringsNotInOrder_ShouldViolateRule()
+        {
+            var rule = new OrderQuerystrings();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/?queryB=0&queryc=0&queryd=0&queryA=0")),
+                new UserProvisions(new string[0], new[] { "querya", "queryb", "queryc", "queryd" }));
+
+            violated.ShouldBe(true);
+        }
+
+        [Test]
+        public void OrderQuerystrings_GivenQuerystringsNotInOrderButNotCanonical_ShouldNotViolateRule()
+        {
+            var rule = new OrderQuerystrings();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/?queryB=0&queryc=0&queryd=0&queryA=0")),
+                new UserProvisions(new string[0], new[] { "queryb" }));
+
+            violated.ShouldBe(false);
+        }
+
+        [Test]
+        public void OrderQuerystrings_GivenCanonicalQuerystringsAtBeginning_ShouldViolateRule()
+        {
+            var rule = new OrderQuerystrings();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/?queryc=0&queryB=0&queryd=0&queryA=0")),
+                new UserProvisions(new string[0], new[] { "queryb" }));
+
+            violated.ShouldBe(true);
+        }
+
+        [TestCase("http://my-site.com//")]
+        [TestCase("http://my-site.com/hello//world")]
+        [TestCase("http://my-site.com/hello/world//")]
+        [TestCase("http://my-site.com/hello/world//")]
+        [TestCase("http://my-site.com/hello////world/")]
+        public void RemoveRepeatingSlashes_GivenMultipleSlashes_ShouldViolateRule(string url)
+        {
+            var rule = new RemoveRepeatingSlashes();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri(url)),
+                NoProvisions);
+
+            violated.ShouldBe(true);
+        }
+
+        [Test]
+        public void RemoveRepeatingSlashes_GivenSingleSlashes_ShouldNotViolateRule()
+        {
+            var rule = new RemoveRepeatingSlashes();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/webpath/webfile")),
+                NoProvisions);
+
+            violated.ShouldBe(false);
+        }
+
+        [Test]
+        public void RemoveTrailingSlash_GivenTrailingSlash_ShouldViolateRule()
+        {
+            var rule = new RemoveTrailingSlash();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/webpath/webfile/")),
+                NoProvisions);
+
+            violated.ShouldBe(true);
+        }
+
+        [Test]
+        public void RemoveTrailingSlash_GivenNoTrailingSlash_ShouldNotViolateRule()
+        {
+            var rule = new RemoveTrailingSlash();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/webpath/webfile")),
+                NoProvisions);
+
+            violated.ShouldBe(false);
+        }
+
+        [Test]
+        public void RemoveTrailingSlash_GivenDomainUrl_ShouldNotViolateRule()
+        {
+            var rule = new RemoveTrailingSlash();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/")),
+                NoProvisions);
+
+            violated.ShouldBe(false);
+        }
+
+        [Test]
+        public void RemoveUncanonicalQuerystrings_GivenOnlyCanonicalQuerystrings_ShouldNotViolateRule()
+        {
+            var rule = new RemoveUncanonicalQuerystrings();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/?canonical=true&canonical2=100")),
+                new UserProvisions(new string[0], new[] { "canonical", "canonical2" }));
+
+            violated.ShouldBe(false);
+        }
+
+        [Test]
+        public void RemoveUncanonicalQuerystrings_GivenOnlyNonCanonicalQuerystrings_ShouldViolateRule()
+        {
+            var rule = new RemoveUncanonicalQuerystrings();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/?notcanonical=true&notcanonical2=100")),
+                new UserProvisions(new string[0], new[] { "canonical", "canonical2" }));
+
+            violated.ShouldBe(true);
+        }
+
+        [Test]
+        public void RemoveUncanonicalQuerystrings_GivenMixOfCanonicalAndNonCanonicalQuerystrings_ShouldViolateRule()
+        {
+            var rule = new RemoveUncanonicalQuerystrings();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/?notcanonical=true&canonical2=100")),
+                new UserProvisions(new string[0], new[] { "canonical", "canonical2" }));
+
+            violated.ShouldBe(true);
+        }
+
+        [Test]
+        public void RemoveUncanonicalQuerystrings_GivenNoQuerystrings_ShouldNotViolateRule()
+        {
+            var rule = new RemoveUncanonicalQuerystrings();
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithUri(new Uri("http://my-site.com/")),
+                new UserProvisions(new string[0], new[] { "canonical", "canonical2" }));
+
+            violated.ShouldBe(false);
         }
     }
 }

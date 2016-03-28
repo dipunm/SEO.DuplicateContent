@@ -17,17 +17,19 @@ namespace ReturnNull.CanonicalRoutes.Rules
         public EnforceHost(string host, int? port = null)
         {
             if (host == null) throw new ArgumentNullException(nameof(host));
-            if(!Regex.IsMatch(host, @"^[a-z0-9\-]{1,253}(?:.[a-z0-9\-]{1,253})*$"))
+            if(!Regex.IsMatch(host, @"^[a-z0-9\-]{1,253}(?:\.[a-z0-9\-]{1,253})*$"))
                 throw new ArgumentException("Please provide a valid hostname");
+            if(port < 0) throw new ArgumentException("port number must be a positive integer", nameof(port));
+
             _host = host;
             _port = port;
         }
 
         public bool HasBeenViolated(RequestData requestData, UserProvisions provisions)
         {
-            return requestData.RequestUri.Host == _host && (_port == null ? 
-                requestData.RequestUri.IsDefaultPort : 
-                _port == requestData.RequestUri.Port);
+            return requestData.RequestUri.Host != _host || (_port == null ? 
+                !requestData.RequestUri.IsDefaultPort : 
+                _port != requestData.RequestUri.Port);
         }
 
         public void CorrectPlan(UrlPlan plan, RequestData requestData, UserProvisions provisions)

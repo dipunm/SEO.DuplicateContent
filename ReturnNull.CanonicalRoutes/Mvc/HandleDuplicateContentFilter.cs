@@ -8,7 +8,7 @@ using ReturnNull.CanonicalRoutes.Rules.Abstract;
 
 namespace ReturnNull.CanonicalRoutes.Mvc
 {
-    public class CanonicalFilter : IActionFilter
+    public class HandleDuplicateContentFilter : IActionFilter
     {
         internal const string CanonicalDataKey = "canonicalUrl";
 

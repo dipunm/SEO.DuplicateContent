@@ -76,6 +76,7 @@
     <Compile Include="Mvc\CanonicalUrlExtensions.cs" />
     <Compile Include="Rules\Abstract\CanonicalRuleSnitch.cs" />
     <Compile Include="Models\RequestData.cs" />
+    <Compile Include="Models\UserProvisions.cs" />
     <Compile Include="Rules\EnforceCorrectSlug.cs" />
     <Compile Include="Rules\Dependencies\ISlugProvider.cs" />
     <Compile Include="Rules\EnforceHost.cs" />
@@ -87,7 +88,7 @@
     <Compile Include="Rules\RemoveTrailingSlash.cs" />
     <Compile Include="Rules\LowercaseQuerystringValues.cs" />
     <Compile Include="Rules\LowercaseQuerystringKeys.cs" />
-    <Compile Include="Mvc\CanonicalFilter.cs" />
+    <Compile Include="Mvc\HandleDuplicateContentFilter.cs" />
     <Compile Include="Mvc\CanonicalAttribute.cs" />
     <Compile Include="Helpers\QuerystringHelper.cs" />
     <Compile Include="Models\UrlPlan.cs" />

@@ -6,7 +6,7 @@ namespace ReturnNull.CanonicalRoutes.Mvc
     {
         public static string Canonical(this UrlHelper urlHelper)
         {
-            return urlHelper.RequestContext.RouteData.DataTokens[CanonicalFilter.CanonicalDataKey] as string;
+            return urlHelper.RequestContext.RouteData.DataTokens[HandleDuplicateContentFilter.CanonicalDataKey] as string;
         }
     }
 }

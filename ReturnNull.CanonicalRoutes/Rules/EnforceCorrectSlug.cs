@@ -15,6 +15,7 @@ namespace ReturnNull.CanonicalRoutes.Rules
 
         public EnforceCorrectSlug(ISlugProvider slugProvider)
         {
+            if (slugProvider == null) throw new ArgumentNullException(nameof(slugProvider));
             _slugProvider = slugProvider;
         }
 

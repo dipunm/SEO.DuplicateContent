@@ -15,12 +15,12 @@
 2. Configure the SEO rules:
 
     ```
-    // > /App_Data/CanonicalConfig.cs
-    public class CanonicalConfig
+    // > /App_Data/SeoConfig.cs
+    public class SeoConfig
     {
-        public static void SetupCanonicalRules(CanonicalRulesetCollection rules)
+        public static void SetupDuplicateContentRules(SeoRequestRulesetCollection rules)
         {
-            rules.Add("Default", CanonicalRuleset.Recommended());
+            rules.Add("Default", SeoRequestRuleset.Recommended());
         }
     }
     
@@ -30,7 +30,7 @@
         protected void Application_Start()
         {
             //...
-            CanonicalConfig.SetupCanonicalRules(CanonicalRulesetCollection.Rules);
+            CanonicalConfig.SetupCanonicalRules(SeoRequestRulesetCollection.Rules);
             //...
         }
     }

@@ -4,7 +4,7 @@ using ReturnNull.CanonicalRoutes.Rules.Abstract;
 
 namespace ReturnNull.CanonicalRoutes.Rules
 {
-    public class EnforceScheme : ICanonicalRule
+    public class EnforceScheme : ISeoRequestRule
     {
         private readonly string _scheme;
         public const string Https = "https";

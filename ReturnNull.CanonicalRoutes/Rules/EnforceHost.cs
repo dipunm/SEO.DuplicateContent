@@ -9,7 +9,7 @@ using ReturnNull.CanonicalRoutes.Rules.Abstract;
 
 namespace ReturnNull.CanonicalRoutes.Rules
 {
-    public class EnforceHost : ICanonicalRule
+    public class EnforceHost : ISeoRequestRule
     {
         private readonly string _host;
         private readonly int? _port;

@@ -5,7 +5,7 @@ using ReturnNull.CanonicalRoutes.Rules.Abstract;
 
 namespace ReturnNull.CanonicalRoutes.Rules
 {
-    public class OmitDefaultRouteValues : CanonicalRuleSnitch
+    public class OmitDefaultRouteValues : SeoRequestRuleSnitch
     {
         public override bool HasBeenViolated(RequestData requestData, UserProvisions provisions)
         {

@@ -6,7 +6,7 @@ using ReturnNull.CanonicalRoutes.Rules.Abstract;
 
 namespace ReturnNull.CanonicalRoutes.Rules
 {
-    public class MatchCaseWithRoute : ICanonicalRule {
+    public class MatchCaseWithRoute : ISeoRequestRule {
         public bool HasBeenViolated(RequestData requestData, UserProvisions provisions)
         {
             var urlPath = requestData.RequestUri.AbsolutePath;

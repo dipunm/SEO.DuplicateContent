@@ -7,9 +7,9 @@ namespace ReturnNull.CanonicalRoutes.Internal
 {
     internal class Canonicalizer
     {
-        private readonly CanonicalRuleset _ruleset;
+        private readonly SeoRequestRuleset _ruleset;
 
-        public Canonicalizer(CanonicalRuleset ruleset)
+        public Canonicalizer(SeoRequestRuleset ruleset)
         {
             _ruleset = ruleset;
         }

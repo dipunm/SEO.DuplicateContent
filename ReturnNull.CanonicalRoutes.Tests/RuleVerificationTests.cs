@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Routing;
 using Moq;
 using NUnit.Framework;
@@ -37,7 +38,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
                 CreateRequestData().WithValues(new RouteValueDictionary() { { "myParamSlug", "this-is-my-value" } }),
                 NoProvisions);
 
-            mockSlugProvider.Verify(p => p.GetSlug("myParamSlug"));
+            mockSlugProvider.Verify(p => p.GetSlug("myParamSlug", It.IsAny<IEnumerable<KeyValuePair<string, object>>>()));
         }
 
         [Test]
@@ -50,7 +51,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
                 CreateRequestData().WithValues(new RouteValueDictionary() { { "myParam", "this-is-my-value" } }),
                 NoProvisions);
 
-            mockSlugProvider.Verify(p => p.GetSlug("myParam"), Times.Never);
+            mockSlugProvider.Verify(p => p.GetSlug("myParam", It.IsAny<IEnumerable<KeyValuePair<string, object>>>()), Times.Never);
         }
 
         [Test]
@@ -59,7 +60,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
             var mockSlugProvider = new Mock<ISlugProvider>();
             var rule = new EnforceCorrectSlug(mockSlugProvider.Object);
 
-            mockSlugProvider.Setup(p => p.GetSlug("myParamSlug"))
+            mockSlugProvider.Setup(p => p.GetSlug("myParamSlug", It.IsAny<IEnumerable<KeyValuePair<string, object>>>()))
                 .Returns("this-is-my-value");
 
             var violated = rule.HasBeenViolated(
@@ -75,7 +76,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
             var mockSlugProvider = new Mock<ISlugProvider>();
             var rule = new EnforceCorrectSlug(mockSlugProvider.Object);
 
-            mockSlugProvider.Setup(p => p.GetSlug("myParamSlug"))
+            mockSlugProvider.Setup(p => p.GetSlug("myParamSlug", It.IsAny<IEnumerable<KeyValuePair<string, object>>>()))
                 .Returns("this-is-my-value");
 
             var violated = rule.HasBeenViolated(

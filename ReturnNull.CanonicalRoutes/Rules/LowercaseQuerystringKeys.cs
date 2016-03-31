@@ -7,7 +7,7 @@ using ReturnNull.CanonicalRoutes.Rules.Abstract;
 
 namespace ReturnNull.CanonicalRoutes.Rules
 {
-    public class LowercaseQuerystringKeys : ICanonicalRule {
+    public class LowercaseQuerystringKeys : ISeoRequestRule {
         public bool HasBeenViolated(RequestData requestData, UserProvisions provisions)
         {
             return requestData.RequestUri.Query.ToKeyValuePairs()

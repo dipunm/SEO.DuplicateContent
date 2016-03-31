@@ -69,12 +69,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\CanonicalRuleset.cs" />
-    <Compile Include="Configuration\CanonicalRulesetCollection.cs" />
+    <Compile Include="Configuration\SeoRequestRuleset.cs" />
+    <Compile Include="Configuration\SeoRequestRulesetCollection.cs" />
     <Compile Include="Helpers\RequestHelpers.cs" />
     <Compile Include="Internal\AttributeHelper.cs" />
     <Compile Include="Mvc\CanonicalUrlExtensions.cs" />
-    <Compile Include="Rules\Abstract\CanonicalRuleSnitch.cs" />
+    <Compile Include="Rules\Abstract\SeoRequestRuleSnitch.cs" />
     <Compile Include="Models\RequestData.cs" />
     <Compile Include="Models\UserProvisions.cs" />
     <Compile Include="Rules\EnforceCorrectSlug.cs" />
@@ -95,7 +95,7 @@
     <Compile Include="Internal\Canonicalizer.cs" />
     <Compile Include="Internal\CanonicalRulesetResult.cs" />
     <Compile Include="Rules\OmitDefaultRouteValues.cs" />
-    <Compile Include="Rules\Abstract\ICanonicalRule.cs" />
+    <Compile Include="Rules\Abstract\ISeoRequestRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

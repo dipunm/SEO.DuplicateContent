@@ -28,7 +28,7 @@ namespace ReturnNull.CanonicalRoutes.Mvc
                 httpContext.Request.GetRealRequestUri()
             );
 
-            var ruleset = CanonicalRulesetCollection.Rules.Get(settings.Ruleset);
+            var ruleset = SeoRequestRulesetCollection.Rules.Get(settings.Ruleset);
             var canonicalizer = new Canonicalizer(ruleset);
             var result = canonicalizer.Canonicalize(requestData, new UserProvisions(settings.Sensitive, settings.Query));
             var newUrl = result.Plan.GenerateUrl(httpContext, routeData.Route).ToString();

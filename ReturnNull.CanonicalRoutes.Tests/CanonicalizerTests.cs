@@ -44,7 +44,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
         
         Test CanonicalCollection
         
-        CanonicalRuleset.Recommended -- test for parameters.
+        SeoRequestRuleset.Recommended -- test for parameters.
         UrlPlan.Execute? -- probably not.
         */
 
@@ -52,7 +52,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
     [TestFixture]
     public class CanonicalizerTests
     {
-        private CanonicalRuleset _rules;
+        private SeoRequestRuleset _rules;
         private Canonicalizer _canonicalizer;
         private RequestData _requestData;
         private UserProvisions NoProvisions { get; } = new UserProvisions(new string[0], new string[0]);
@@ -66,7 +66,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
                 new RouteValueDictionary(), 
                 new Uri("http://www.fail-fast.net/"));
 
-            _rules = new CanonicalRuleset();
+            _rules = new SeoRequestRuleset();
             _canonicalizer = new Canonicalizer(_rules);
 
         }
@@ -98,7 +98,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
         public void Canonicalize_WhenRulesCorrectThePlan_ShouldReturnCorrectedPlan()
         {
             UrlPlan correctedPlan = null;
-            var mockRewriteRule = new Mock<ICanonicalRule>();
+            var mockRewriteRule = new Mock<ISeoRequestRule>();
             _rules.RewriteRules.Add(mockRewriteRule.Object);
             mockRewriteRule.Setup(r => r.CorrectPlan(It.IsAny<UrlPlan>(), It.IsAny<RequestData>(), It.IsAny<UserProvisions>()))
                 .Callback<UrlPlan, RequestData, UserProvisions>((plan, requestData, provisions) => 
@@ -112,7 +112,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
         [Test]
         public void Canonicalize_WhenARedirectRuleHasNotBeenViolated_ShouldNotRunRedirectCorrections()
         {
-            var mockRedirectRule = new Mock<ICanonicalRule>();
+            var mockRedirectRule = new Mock<ISeoRequestRule>();
             _rules.RedirectRules.Add(mockRedirectRule.Object);
             mockRedirectRule.Setup(r => r.HasBeenViolated(_requestData, It.IsAny<UserProvisions>()))
                 .Returns(false);
@@ -127,9 +127,9 @@ namespace ReturnNull.CanonicalRoutes.Tests
         [Test]
         public void Canonicalize_WhenARedirectRuleHasBeenViolated_ShouldNotRunRewriteCorrections()
         {
-            var mockRedirectRule = new Mock<ICanonicalRule>();
+            var mockRedirectRule = new Mock<ISeoRequestRule>();
             _rules.RedirectRules.Add(mockRedirectRule.Object);
-            var mockRewriteRule = new Mock<ICanonicalRule>();
+            var mockRewriteRule = new Mock<ISeoRequestRule>();
             _rules.RewriteRules.Add(mockRewriteRule.Object);
             mockRedirectRule.Setup(r => r.HasBeenViolated(_requestData, It.IsAny<UserProvisions>()))
                 .Returns(true);
@@ -144,9 +144,9 @@ namespace ReturnNull.CanonicalRoutes.Tests
         [Test]
         public void Canonicalize_WhenARedirectRuleHasNotBeenViolated_ShouldRunRewriteCorrections()
         {
-            var mockRedirectRule = new Mock<ICanonicalRule>();
+            var mockRedirectRule = new Mock<ISeoRequestRule>();
             _rules.RedirectRules.Add(mockRedirectRule.Object);
-            var mockRewriteRule = new Mock<ICanonicalRule>();
+            var mockRewriteRule = new Mock<ISeoRequestRule>();
             _rules.RewriteRules.Add(mockRewriteRule.Object);
             mockRedirectRule.Setup(r => r.HasBeenViolated(_requestData, It.IsAny<UserProvisions>()))
                 .Returns(false);
@@ -161,9 +161,9 @@ namespace ReturnNull.CanonicalRoutes.Tests
         [Test]
         public void Canonicalize_WhenARedirectRuleHasBeenViolated_ShouldRunRedirectCorrections()
         {
-            var mockRedirectRule = new Mock<ICanonicalRule>();
+            var mockRedirectRule = new Mock<ISeoRequestRule>();
             _rules.RedirectRules.Add(mockRedirectRule.Object);
-            var mockRewriteRule = new Mock<ICanonicalRule>();
+            var mockRewriteRule = new Mock<ISeoRequestRule>();
             _rules.RewriteRules.Add(mockRewriteRule.Object);
             mockRedirectRule.Setup(r => r.HasBeenViolated(_requestData, It.IsAny<UserProvisions>()))
                 .Returns(true);
@@ -178,7 +178,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
         [Test]
         public void Canonicalize_WhenARedirectRuleHasBeenViolated_ShouldSuggestARedirect()
         {
-            var mockRedirectRule = new Mock<ICanonicalRule>();
+            var mockRedirectRule = new Mock<ISeoRequestRule>();
             _rules.RedirectRules.Add(mockRedirectRule.Object);
             mockRedirectRule.Setup(r => r.HasBeenViolated(_requestData, It.IsAny<UserProvisions>()))
                 .Returns(true);

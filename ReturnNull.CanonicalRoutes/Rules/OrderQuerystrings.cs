@@ -6,7 +6,7 @@ using ReturnNull.CanonicalRoutes.Rules.Abstract;
 
 namespace ReturnNull.CanonicalRoutes.Rules
 {
-    public class OrderQuerystrings : ICanonicalRule {
+    public class OrderQuerystrings : ISeoRequestRule {
         public bool HasBeenViolated(RequestData requestData, UserProvisions provisions)
         {
             var queryKeys = requestData.RequestUri.Query.ToKeyValuePairs()

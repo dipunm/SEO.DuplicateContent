@@ -72,7 +72,7 @@ url: `http://www.my-site.com/search?q=User+inpuT`
 attribute: `[Canonical(Ruleset = "Default", Query = new[] { "q" }, Sensitive = new[] { "q" })]`   
 
 #The recommended ruleset
-The above example shows starting off with a recommended ruleset. The source of this ruleset can be found here: https://github.com/dipunm/SEO.DuplicateContent/blob/master/ReturnNull.CanonicalRoutes/Configuration/CanonicalRuleSet.cs
+The above example shows starting off with a recommended ruleset. The source of this ruleset can be found here: [SeoRequestRuleset.cs](ReturnNull.CanonicalRoutes/Configuration/SeoRequestRuleset.cs)
 
 **The provided rules do not validate or normalize non-canonical querystring parameters.**
 
@@ -94,4 +94,4 @@ If the request does not violate any of the rules defined in the RedirectRules co
 You can pass an optional parameter to the Recommended method in order to apply some extra rules. 
 Providing a Uri will allow us to enforce the scheme and hostname of your site; this is useful if you have a preferred domain and scheme defined in your configuration file.
 
-You can read more about the rules here: [Link to Redirect Rules]
+You can read more about the rules here: [Redirect Rules](rules.md)

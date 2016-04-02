@@ -23,7 +23,7 @@ namespace Demo.Web.Controllers
             return View();
         }
 
-        [Canonical(Query = new[] { "person" }, Sensitive = new [] { "id", "person" })]
+        [Canonical(Query = new[] { "person", "id", "person.age" }, Sensitive = new [] { "id", "person" })]
         public ActionResult Contact(string id = null, string person = null)
         {
             ViewBag.Message = "Your contact page.";

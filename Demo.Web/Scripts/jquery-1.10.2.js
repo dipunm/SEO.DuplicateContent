@@ -800,7 +800,7 @@ jQuery.extend({
 				}
 			}
 
-		// Go through every slugId on the object,
+		// Go through every key on the object,
 		} else {
 			for ( i in elems ) {
 				value = callback( elems[ i ], i, arg );
@@ -1304,7 +1304,7 @@ function Sizzle( selector, context, results, seed ) {
 }
 
 /**
- * Create slugId-value caches of limited size
+ * Create key-value caches of limited size
  * @returns {Function(string, Object)} Returns the Object data after storing it on itself with
  *	property name the (space-suffixed) string and (if the cache is larger than Expr.cacheLength)
  *	deleting the oldest entry
@@ -1313,7 +1313,7 @@ function createCache() {
 	var keys = [];
 
 	function cache( key, value ) {
-		// Use (slugId + " ") to avoid collision with native prototype properties (see Issue #157)
+		// Use (key + " ") to avoid collision with native prototype properties (see Issue #157)
 		if ( keys.push( key += " " ) > Expr.cacheLength ) {
 			// Only keep the most recent entries
 			delete cache[ keys.shift() ];
@@ -3621,7 +3621,7 @@ function internalData( elem, name, data, pvt /* Internal Use Only */ ){
 		cache[ id ] = isNode ? {} : { toJSON: jQuery.noop };
 	}
 
-	// An object can be passed to jQuery.data instead of a slugId/value pair; this gets
+	// An object can be passed to jQuery.data instead of a key/value pair; this gets
 	// shallow copied over onto the existing cache
 	if ( typeof name === "object" || typeof name === "function" ) {
 		if ( pvt ) {
@@ -3634,7 +3634,7 @@ function internalData( elem, name, data, pvt /* Internal Use Only */ ){
 	thisCache = cache[ id ];
 
 	// jQuery data() is stored in a separate object inside the object's internal data
-	// cache in order to avoid slugId collisions between internal data and user-defined
+	// cache in order to avoid key collisions between internal data and user-defined
 	// data.
 	if ( !pvt ) {
 		if ( !thisCache.data ) {
@@ -3695,12 +3695,12 @@ function internalRemoveData( elem, name, pvt ) {
 			// Support array or space separated string names for data keys
 			if ( !jQuery.isArray( name ) ) {
 
-				// try the string as a slugId before any manipulation
+				// try the string as a key before any manipulation
 				if ( name in thisCache ) {
 					name = [ name ];
 				} else {
 
-					// split the camel cased version by spaces unless a slugId with the spaces exists
+					// split the camel cased version by spaces unless a key with the spaces exists
 					name = jQuery.camelCase( name );
 					if ( name in thisCache ) {
 						name = [ name ];
@@ -3710,10 +3710,10 @@ function internalRemoveData( elem, name, pvt ) {
 				}
 			} else {
 				// If "name" is an array of keys...
-				// When data is initially created, via ("slugId", "val") signature,
+				// When data is initially created, via ("key", "val") signature,
 				// keys will be converted to camelCase.
-				// Since there is no way to tell _how_ a slugId was added, remove
-				// both plain slugId and camelCase slugId. #12786
+				// Since there is no way to tell _how_ a key was added, remove
+				// both plain key and camelCase key. #12786
 				// This will only penalize the array argument path.
 				name = name.concat( jQuery.map( name, jQuery.camelCase ) );
 			}
@@ -5215,7 +5215,7 @@ jQuery.event = {
 		}
 
 		// Support: IE<9
-		// For mouse/slugId events, metaKey==false if it's undefined (#3368, #11328)
+		// For mouse/key events, metaKey==false if it's undefined (#3368, #11328)
 		event.metaKey = !!event.metaKey;
 
 		return fixHook.filter ? fixHook.filter( event, originalEvent ) : event;
@@ -5227,10 +5227,10 @@ jQuery.event = {
 	fixHooks: {},
 
 	keyHooks: {
-		props: "char charCode slugId keyCode".split(" "),
+		props: "char charCode key keyCode".split(" "),
 		filter: function( event, original ) {
 
-			// Add which for slugId events
+			// Add which for key events
 			if ( event.which == null ) {
 				event.which = original.charCode != null ? original.charCode : original.keyCode;
 			}
@@ -7504,7 +7504,7 @@ jQuery.fn.extend({
 });
 
 //Serialize an array of form elements or a set of
-//slugId/values into a query string
+//key/values into a query string
 jQuery.param = function( a, traditional ) {
 	var prefix,
 		s = [],
@@ -7621,14 +7621,14 @@ var
 	 * 2) These are called:
 	 *    - BEFORE asking for a transport
 	 *    - AFTER param serialization (s.data is a string if s.processData is true)
-	 * 3) slugId is the dataType
+	 * 3) key is the dataType
 	 * 4) the catchall symbol "*" can be used
 	 * 5) execution will start with transport dataType and THEN continue down to "*" if needed
 	 */
 	prefilters = {},
 
 	/* Transports bindings
-	 * 1) slugId is the dataType
+	 * 1) key is the dataType
 	 * 2) the catchall symbol "*" can be used
 	 * 3) selection will start with transport dataType and THEN go to "*" if needed
 	 */

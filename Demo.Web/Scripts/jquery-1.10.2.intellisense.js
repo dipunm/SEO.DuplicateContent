@@ -17,12 +17,12 @@ intellisense.annotate(jQuery, {
     /// <signature>
     ///   <summary>Perform an asynchronous HTTP (Ajax) request.</summary>
     ///   <param name="url" type="String">A string containing the URL to which the request is sent.</param>
-    ///   <param name="settings" type="PlainObject">A set of slugId/value pairs that configure the Ajax request. All settings are optional. A default can be set for any option with $.ajaxSetup(). See jQuery.ajax( settings ) below for a complete list of all settings.</param>
+    ///   <param name="settings" type="PlainObject">A set of key/value pairs that configure the Ajax request. All settings are optional. A default can be set for any option with $.ajaxSetup(). See jQuery.ajax( settings ) below for a complete list of all settings.</param>
     ///   <returns type="jqXHR" />
     /// </signature>
     /// <signature>
     ///   <summary>Perform an asynchronous HTTP (Ajax) request.</summary>
-    ///   <param name="settings" type="PlainObject">A set of slugId/value pairs that configure the Ajax request. All settings are optional. A default can be set for any option with $.ajaxSetup().</param>
+    ///   <param name="settings" type="PlainObject">A set of key/value pairs that configure the Ajax request. All settings are optional. A default can be set for any option with $.ajaxSetup().</param>
     ///   <returns type="jqXHR" />
     /// </signature>
   },
@@ -36,7 +36,7 @@ intellisense.annotate(jQuery, {
   'ajaxSetup': function() {
     /// <signature>
     ///   <summary>Set default values for future Ajax requests.</summary>
-    ///   <param name="options" type="PlainObject">A set of slugId/value pairs that configure the default Ajax request. All options are optional.</param>
+    ///   <param name="options" type="PlainObject">A set of key/value pairs that configure the default Ajax request. All options are optional.</param>
     /// </signature>
   },
   'ajaxTransport': function() {
@@ -81,7 +81,7 @@ intellisense.annotate(jQuery, {
     /// <signature>
     ///   <summary>Returns value at named data store for the element, as set by jQuery.data(element, name, value), or the full data store for the element.</summary>
     ///   <param name="element" type="Element">The DOM element to query for the data.</param>
-    ///   <param name="slugId" type="String">Name of the data stored.</param>
+    ///   <param name="key" type="String">Name of the data stored.</param>
     ///   <returns type="Object" />
     /// </signature>
     /// <signature>
@@ -265,7 +265,7 @@ intellisense.annotate(jQuery, {
     /// <signature>
     ///   <summary>Translate all items in an array or object to new array of items.</summary>
     ///   <param name="arrayOrObject" type="Object">The Array or Object to translate.</param>
-    ///   <param name="callback( value, indexOrKey )" type="Function">The function to process each item against.  The first argument to the function is the value; the second argument is the index or slugId of the array or object property. The function can return any value to add to the array. A returned array will be flattened into the resulting array. Within the function, this refers to the global (window) object.</param>
+    ///   <param name="callback( value, indexOrKey )" type="Function">The function to process each item against.  The first argument to the function is the value; the second argument is the index or key of the array or object property. The function can return any value to add to the array. A returned array will be flattened into the resulting array. Within the function, this refers to the global (window) object.</param>
     ///   <returns type="Array" />
     /// </signature>
   },
@@ -665,7 +665,7 @@ intellisense.annotate(jQuery.Event.prototype, {
     /// <returns type="Boolean" />
   },
   'metaKey': function() {
-    /// <summary>Indicates whether the META slugId was pressed when the event fired.</summary>
+    /// <summary>Indicates whether the META key was pressed when the event fired.</summary>
     /// <returns type="Boolean" />
   },
   'namespace': function() {
@@ -710,7 +710,7 @@ intellisense.annotate(jQuery.Event.prototype, {
     /// <returns type="String" />
   },
   'which': function() {
-    /// <summary>For slugId or mouse events, this property indicates the specific slugId or button that was pressed.</summary>
+    /// <summary>For key or mouse events, this property indicates the specific key or button that was pressed.</summary>
     /// <returns type="Number" />
   },
 });
@@ -1127,13 +1127,13 @@ intellisense.annotate(jQuery.fn, {
   'data': function() {
     /// <signature>
     ///   <summary>Store arbitrary data associated with the matched elements.</summary>
-    ///   <param name="slugId" type="String">A string naming the piece of data to set.</param>
+    ///   <param name="key" type="String">A string naming the piece of data to set.</param>
     ///   <param name="value" type="Object">The new data value; it can be any Javascript type including Array or Object.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
     ///   <summary>Store arbitrary data associated with the matched elements.</summary>
-    ///   <param name="obj" type="Object">An object of slugId-value pairs of data to update.</param>
+    ///   <param name="obj" type="Object">An object of key-value pairs of data to update.</param>
     ///   <returns type="jQuery" />
     /// </signature>
   },

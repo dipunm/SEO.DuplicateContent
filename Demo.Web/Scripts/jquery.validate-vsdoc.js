@@ -47,7 +47,7 @@ $.extend($.fn, {
 		/// onkeyup, onclick). focusInvalid focuses elements when submitting a invalid form.
 		/// </summary>
 		/// <param name="options" type="Object">
-		/// A set of slugId/value pairs that configure the validate. All options are optional.
+		/// A set of key/value pairs that configure the validate. All options are optional.
 		/// </param>
 
 		// if nothing is selected, return nothing; can't chain anyway
@@ -448,7 +448,7 @@ $.extend($.validator, {
 			/// Keys have to refer to the names of elements, values are displayed for those elements, using the configured error placement.
 			/// </summary>
 			/// <param name="errors" type="Object">
-			/// One or more slugId/value pairs of input names and messages.
+			/// One or more key/value pairs of input names and messages.
 			/// </param>
 
 			if(errors) {

@@ -1,3 +1,8 @@
+# Install
+Use nuget: `Install-Package ReturnNull.Seo.DuplicateContent`
+
+see: https://www.nuget.org/packages/ReturnNull.Seo.DuplicateContent/
+
 # Usage
 1. Add the global action filter:
 

@@ -14,6 +14,10 @@ namespace ReturnNull.CanonicalRoutes.Mvc
 
         public void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            //child actions are not supported
+            if (filterContext.IsChildAction)
+                return;
+
             var settings = AttributeHelper.GetCanonicalSettings(filterContext.ActionDescriptor);
             if (settings == null)
                 return;

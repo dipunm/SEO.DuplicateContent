@@ -9,9 +9,10 @@ namespace ReturnNull.CanonicalRoutes.Tests.AssertHelpers
     internal class RequestDataBuilder
     {
         private RouteValueDictionary _values;
-        private Mock<HttpContextBase> _mockHttpContext;
-        private Mock<RouteBase> _route;
+        private readonly Mock<HttpContextBase> _mockHttpContext;
+        private readonly Mock<RouteBase> _route;
         private Uri _uri;
+        private RouteBase _fixedRoute = null;
 
         public RequestDataBuilder()
         {
@@ -23,7 +24,11 @@ namespace ReturnNull.CanonicalRoutes.Tests.AssertHelpers
 
         public static implicit operator RequestData(RequestDataBuilder builder)
         {
-            return new RequestData(builder._mockHttpContext.Object, builder._route.Object, builder._values, builder._uri);
+            return new RequestData(
+                builder._mockHttpContext.Object, 
+                builder._fixedRoute ?? builder._route.Object, 
+                builder._values, 
+                builder._uri);
         }
 
         public RequestDataBuilder WithValues(RouteValueDictionary routeValueDictionary)
@@ -35,6 +40,12 @@ namespace ReturnNull.CanonicalRoutes.Tests.AssertHelpers
         public RequestDataBuilder WithUri(Uri uri)
         {
             _uri = uri;
+            return this;
+        }
+
+        public RequestData WithRoute(RouteBase route)
+        {
+            _fixedRoute = route;
             return this;
         }
     }

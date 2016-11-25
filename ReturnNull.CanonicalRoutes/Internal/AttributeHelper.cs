@@ -22,7 +22,8 @@ namespace ReturnNull.CanonicalRoutes.Internal
                 {
                     Query = a.Query.Concat(b.Query).Distinct().ToArray(),
                     Ruleset = b.Ruleset ?? a.Ruleset,
-                    Sensitive = a.Sensitive.Concat(b.Sensitive).Distinct().ToArray()
+                    Sensitive = a.Sensitive.Concat(b.Sensitive).Distinct().ToArray(),
+                    RouteName = b.RouteName ?? a.RouteName
                 });
 
             return settings;

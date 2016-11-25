@@ -10,6 +10,7 @@ namespace Demo.Web.Controllers
     [Canonical(Ruleset = "Default")]
     public class HomeController : Controller
     {
+        [Canonical(RouteName = "another")]
         public ActionResult Index()
         {
             return View();

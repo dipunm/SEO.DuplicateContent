@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web.Configuration;
 using System.Web.Routing;
 using Moq;
 using NUnit.Framework;
@@ -15,11 +16,17 @@ namespace ReturnNull.CanonicalRoutes.Tests
     [TestFixture]
     public class RuleVerificationTests
     {
-        private UserProvisions NoProvisions { get; } = new UserProvisions(new string[0], new string[0]);
+        private UserProvisions NoProvisions { get; } = new UserProvisions(new string[0], new string[0], null);
 
         private RequestDataBuilder CreateRequestData()
         {
             return new RequestDataBuilder();
+        }
+
+        [SetUp]
+        public void Setup()
+        {
+            RouteTable.Routes.Clear();
         }
 
         [Test]
@@ -226,7 +233,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
 
             var violated = rule.HasBeenViolated(
                 CreateRequestData().WithUri(new Uri("http://my-site.com/?Key=value")),
-                new UserProvisions(new string[0], new[] { "key" }));
+                new UserProvisions(new string[0], new[] { "key" }, null));
 
             violated.ShouldBe(true);
         }
@@ -250,7 +257,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
 
             var violated = rule.HasBeenViolated(
                 CreateRequestData().WithUri(new Uri("http://my-site.com/?key=value&TRACK=2020")),
-                new UserProvisions(new string[0], new[] { "key" }));
+                new UserProvisions(new string[0], new[] { "key" }, null));
 
 
             violated.ShouldBe(false);
@@ -263,7 +270,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
 
             var violated = rule.HasBeenViolated(
                 CreateRequestData().WithUri(new Uri("http://my-site.com/?key=value&track=COMPANY-A")),
-                new UserProvisions(new string[0], new[] { "key" }));
+                new UserProvisions(new string[0], new[] { "key" }, null));
 
 
             violated.ShouldBe(false);
@@ -276,7 +283,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
 
             var violated = rule.HasBeenViolated(
                 CreateRequestData().WithUri(new Uri("http://my-site.com/?key=Value")),
-                new UserProvisions(new string[0], new[] { "key" }));
+                new UserProvisions(new string[0], new[] { "key" }, null));
 
             violated.ShouldBe(true);
         }
@@ -300,7 +307,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
 
             var violated = rule.HasBeenViolated(
                 CreateRequestData().WithUri(new Uri("http://my-site.com/?key=Value")),
-                new UserProvisions(new[] { "key" }, new[] { "key" }));
+                new UserProvisions(new[] { "key" }, new[] { "key" }, null));
 
             violated.ShouldBe(false);
         }
@@ -312,7 +319,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
 
             var violated = rule.HasBeenViolated(
                 CreateRequestData().WithUri(new Uri("http://my-site.com/?queryA=0&queryB=0&queryc=0&queryd=0")),
-                new UserProvisions(new string[0], new[] { "querya", "queryb", "queryc", "queryd" }));
+                new UserProvisions(new string[0], new[] { "querya", "queryb", "queryc", "queryd" }, null));
 
             violated.ShouldBe(false);
         }
@@ -324,7 +331,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
 
             var violated = rule.HasBeenViolated(
                 CreateRequestData().WithUri(new Uri("http://my-site.com/?queryB=0&queryc=0&queryd=0&queryA=0")),
-                new UserProvisions(new string[0], new[] { "querya", "queryb", "queryc", "queryd" }));
+                new UserProvisions(new string[0], new[] { "querya", "queryb", "queryc", "queryd" }, null));
 
             violated.ShouldBe(true);
         }
@@ -336,7 +343,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
 
             var violated = rule.HasBeenViolated(
                 CreateRequestData().WithUri(new Uri("http://my-site.com/?queryB=0&queryc=0&queryd=0&queryA=0")),
-                new UserProvisions(new string[0], new[] { "queryb" }));
+                new UserProvisions(new string[0], new[] { "queryb" }, null));
 
             violated.ShouldBe(false);
         }
@@ -348,7 +355,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
 
             var violated = rule.HasBeenViolated(
                 CreateRequestData().WithUri(new Uri("http://my-site.com/?queryc=0&queryB=0&queryd=0&queryA=0")),
-                new UserProvisions(new string[0], new[] { "queryb" }));
+                new UserProvisions(new string[0], new[] { "queryb" }, null));
 
             violated.ShouldBe(true);
         }
@@ -424,7 +431,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
 
             var violated = rule.HasBeenViolated(
                 CreateRequestData().WithUri(new Uri("http://my-site.com/?canonical=true&canonical2=100")),
-                new UserProvisions(new string[0], new[] { "canonical", "canonical2" }));
+                new UserProvisions(new string[0], new[] { "canonical", "canonical2" }, null));
 
             violated.ShouldBe(false);
         }
@@ -436,7 +443,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
 
             var violated = rule.HasBeenViolated(
                 CreateRequestData().WithUri(new Uri("http://my-site.com/?notcanonical=true&notcanonical2=100")),
-                new UserProvisions(new string[0], new[] { "canonical", "canonical2" }));
+                new UserProvisions(new string[0], new[] { "canonical", "canonical2" }, null));
 
             violated.ShouldBe(true);
         }
@@ -448,7 +455,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
 
             var violated = rule.HasBeenViolated(
                 CreateRequestData().WithUri(new Uri("http://my-site.com/?notcanonical=true&canonical2=100")),
-                new UserProvisions(new string[0], new[] { "canonical", "canonical2" }));
+                new UserProvisions(new string[0], new[] { "canonical", "canonical2" }, null));
 
             violated.ShouldBe(true);
         }
@@ -460,9 +467,53 @@ namespace ReturnNull.CanonicalRoutes.Tests
 
             var violated = rule.HasBeenViolated(
                 CreateRequestData().WithUri(new Uri("http://my-site.com/")),
-                new UserProvisions(new string[0], new[] { "canonical", "canonical2" }));
+                new UserProvisions(new string[0], new[] { "canonical", "canonical2" }, null));
 
             violated.ShouldBe(false);
+        }
+
+        [Test]
+        public void EnforceCorrectRoute_GivenNoRouteNameInUserPreferences_ShouldNotViolateRule()
+        {
+            var rule = new EnforceCorrectRoute();
+            
+            var violated = rule.HasBeenViolated(
+                CreateRequestData(),
+                new UserProvisions(new string[0], new string [0], null));
+
+            violated.ShouldBe(false);
+        }
+
+        [Test]
+        public void EnforceCorrectRoute_GivenMatchingRoute_ShouldNotViolateRule()
+        {
+            var rule = new EnforceCorrectRoute();
+
+            var route1 = new Mock<RouteBase>().Object;
+            RouteTable.Routes.Add("route1", route1);
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithRoute(route1),
+                new UserProvisions(new string[0], new string[0], "route1"));
+
+            violated.ShouldBe(false);
+        }
+        
+        [Test]
+        public void EnforceCorrectRoute_GivenMismatchingRoute_ShouldViolateRule()
+        {
+            var rule = new EnforceCorrectRoute();
+
+            var route1 = new Mock<RouteBase>().Object;
+            RouteTable.Routes.Add("route1", route1);
+
+            var route2 = new Mock<RouteBase>().Object;
+            RouteTable.Routes.Add("route2", route2);
+
+            var violated = rule.HasBeenViolated(
+                CreateRequestData().WithRoute(route1),
+                new UserProvisions(new string[0], new string[0], "route2"));
+
+            violated.ShouldBe(true);
         }
     }
 }

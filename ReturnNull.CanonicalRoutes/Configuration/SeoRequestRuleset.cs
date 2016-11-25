@@ -20,6 +20,7 @@ namespace ReturnNull.CanonicalRoutes.Configuration
             {
                 RedirectRules =
                 {
+                    new EnforceCorrectRoute(),
                     new LowercaseQuerystringKeys(),
                     new LowercaseQuerystringValues(),
                     new MatchCaseWithRoute(),

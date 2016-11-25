@@ -23,6 +23,11 @@ namespace ReturnNull.CanonicalRoutes.Mvc
         /// A list of querystring parameters that can significantly change the page's content.
         /// </summary>
         public string[] Query { get; set; }
+
+        /// <summary>
+        /// The name of the route that would generate your preferred url.
+        /// </summary>
+        public string RouteName { get; set; }
     }
 
 }

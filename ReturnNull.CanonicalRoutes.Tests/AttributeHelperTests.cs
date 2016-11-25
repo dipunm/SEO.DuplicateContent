@@ -136,5 +136,27 @@ namespace ReturnNull.CanonicalRoutes.Tests
 
             setting.Ruleset.ShouldBe("actionRuleset");
         }
+
+        [Test]
+        public void AttributeHelper_WhenActionAttributeHasNoDefinedRouteName_ShouldUseRouteNameOnControllerAttribute()
+        {
+            _controllerAttributes.Add(new CanonicalAttribute { RouteName = "default" });
+            _actionAttributes.Add(new CanonicalAttribute());
+
+            var setting = AttributeHelper.GetCanonicalSettings(_mockActionDescriptor.Object);
+
+            setting.RouteName.ShouldBe("default");
+        }
+
+        [Test]
+        public void AttributeHelper_WhenDifferentRouteNameProvidedOnControllerAndAction_ShouldUseRouteDefinedOnAction()
+        {
+            _controllerAttributes.Add(new CanonicalAttribute { RouteName = "default" });
+            _actionAttributes.Add(new CanonicalAttribute { RouteName = "special" });
+
+            var setting = AttributeHelper.GetCanonicalSettings(_mockActionDescriptor.Object);
+
+            setting.RouteName.ShouldBe("special");
+        }
     }
 }

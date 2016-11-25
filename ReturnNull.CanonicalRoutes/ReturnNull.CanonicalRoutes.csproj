@@ -80,6 +80,7 @@
     <Compile Include="Rules\Abstract\SeoRequestRuleSnitch.cs" />
     <Compile Include="Models\RequestData.cs" />
     <Compile Include="Models\UserProvisions.cs" />
+    <Compile Include="Rules\EnforceCorrectRoute.cs" />
     <Compile Include="Rules\EnforceCorrectSlug.cs" />
     <Compile Include="Rules\Dependencies\ISlugProvider.cs" />
     <Compile Include="Rules\EnforceHost.cs" />

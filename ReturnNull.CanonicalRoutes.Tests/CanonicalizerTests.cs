@@ -55,7 +55,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
         private SeoRequestRuleset _rules;
         private Canonicalizer _canonicalizer;
         private RequestData _requestData;
-        private UserProvisions NoProvisions { get; } = new UserProvisions(new string[0], new string[0]);
+        private UserProvisions NoProvisions { get; } = new UserProvisions(new string[0], new string[0], null);
 
         [SetUp]
         public void Setup()
@@ -110,7 +110,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
         }
 
         [Test]
-        public void Canonicalize_WhenARedirectRuleHasNotBeenViolated_ShouldNotRunRedirectCorrections()
+        public void Canonicalize_WhenNoRulesHaveBeenViolated_ShouldNotRunRedirectCorrections()
         {
             var mockRedirectRule = new Mock<ISeoRequestRule>();
             _rules.RedirectRules.Add(mockRedirectRule.Object);
@@ -124,8 +124,7 @@ namespace ReturnNull.CanonicalRoutes.Tests
                 Times.Never);
         }
 
-        [Test]
-        public void Canonicalize_WhenARedirectRuleHasBeenViolated_ShouldNotRunRewriteCorrections()
+        [Test] public void Canonicalize_WhenOnlyARedirectRuleHasBeenViolated_ShouldNotRunRewriteCorrections()
         {
             var mockRedirectRule = new Mock<ISeoRequestRule>();
             _rules.RedirectRules.Add(mockRedirectRule.Object);
@@ -186,6 +185,34 @@ namespace ReturnNull.CanonicalRoutes.Tests
             var results = _canonicalizer.Canonicalize(_requestData, NoProvisions);
 
             results.ShouldRedirect.ShouldBe(true);
+        }
+
+        [Test]
+        public void Canonicalize_WhenARedirectRuleThrowsExceptionsTryingToCorrectAPlan_ShouldNotStopException()
+        {
+            var mockRedirectRule = new Mock<ISeoRequestRule>();
+            _rules.RedirectRules.Add(mockRedirectRule.Object);
+            mockRedirectRule.Setup(r => r.HasBeenViolated(_requestData, It.IsAny<UserProvisions>()))
+                .Returns(true);
+            mockRedirectRule.Setup(r => r.CorrectPlan(It.IsAny<UrlPlan>(), It.IsAny<RequestData>(), It.IsAny<UserProvisions>()))
+                .Throws(new Exception("this string proves it is the original exception"));
+
+            Assert.Throws<Exception>(() =>_canonicalizer.Canonicalize(_requestData, NoProvisions), 
+                "this string proves it is the original exception");
+        }
+
+        [Test]
+        public void Canonicalize_WhenARewriteRuleThrowsExceptionsTryingToCorrectAPlan_ShouldNotStopException()
+        {
+            var mockRewriteRule = new Mock<ISeoRequestRule>();
+            _rules.RewriteRules.Add(mockRewriteRule.Object);
+            mockRewriteRule.Setup(r => r.HasBeenViolated(_requestData, It.IsAny<UserProvisions>()))
+                .Returns(true);
+            mockRewriteRule.Setup(r => r.CorrectPlan(It.IsAny<UrlPlan>(), It.IsAny<RequestData>(), It.IsAny<UserProvisions>()))
+                .Throws(new Exception("this string proves it is the original exception"));
+
+            Assert.Throws<Exception>(() => _canonicalizer.Canonicalize(_requestData, NoProvisions),
+                "this string proves it is the original exception");
         }
 
     }

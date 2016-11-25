@@ -13,14 +13,16 @@ namespace ReturnNull.CanonicalRoutes.Models
             Query = requestData.RequestUri.Query;
             Authority = requestData.RequestUri.GetLeftPart(UriPartial.Authority);
             Values = new RouteValueDictionary(requestData.RouteValues);
+            Route = requestData.Route;
         }
         public RouteValueDictionary Values { get; set; }
         public string Query { get; set; }
         public string Authority { get; set; }
+        public RouteBase Route { get; set; }
 
-        public Uri GenerateUrl(HttpContextBase httpContext, RouteBase route)
+        public Uri GenerateUrl(HttpContextBase httpContext)
         {
-            var correctPath = route
+            var correctPath = Route
                 .GetVirtualPath(httpContext.Request.RequestContext, Values)
                 ?.VirtualPath;
             if (correctPath == null)

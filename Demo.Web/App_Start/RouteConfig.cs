@@ -13,6 +13,13 @@ namespace Demo.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //preferred route for the homepage
+            routes.MapRoute(
+                name: "another",
+                url: "another",
+                defaults: new { controller = "Home", action = "Index" }
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

@@ -34,8 +34,8 @@ namespace ReturnNull.CanonicalRoutes.Mvc
 
             var ruleset = SeoRequestRulesetCollection.Rules.Get(settings.Ruleset);
             var canonicalizer = new Canonicalizer(ruleset);
-            var result = canonicalizer.Canonicalize(requestData, new UserProvisions(settings.Sensitive, settings.Query));
-            var newUrl = result.Plan.GenerateUrl(httpContext, routeData.Route).ToString();
+            var result = canonicalizer.Canonicalize(requestData, new UserProvisions(settings.Sensitive, settings.Query, settings.RouteName));
+            var newUrl = result.Plan.GenerateUrl(httpContext).ToString();
             if (result.ShouldRedirect)
                 filterContext.Result = new RedirectResult(newUrl, true);
             else

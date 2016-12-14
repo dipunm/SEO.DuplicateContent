@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using System.Web.Configuration;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Moq;
 using NUnit.Framework;
@@ -514,6 +516,43 @@ namespace ReturnNull.CanonicalRoutes.Tests
                 new UserProvisions(new string[0], new string[0], "route2"));
 
             violated.ShouldBe(true);
+        }
+        
+        /// <summary>
+        /// Attribute Routing creates 2 routes, so matching routes by name is not possible.
+        /// There is also only an internal link between the two routes.
+        /// </summary>
+        [Test]
+        public void EnforceCorrectRoute_WhenNamedRouteIsFromAttributeRouting_ShouldVerifyBy()
+        {
+            var rule = new EnforceCorrectRoute();
+            var routeMock = new Mock<RouteBase>();
+            routeMock.Setup(m => m.GetVirtualPath(It.IsAny<RequestContext>(), It.IsAny<RouteValueDictionary>()))
+                .Returns(new VirtualPathData(routeMock.Object, "/custom-url?e=extra&p=parameters"));
+            var routeInternal = routeMock.Object;
+            SimulateAttributeRoutingWithOneRoute(RouteTable.Routes, routeInternal, routeName: "route1");
+            
+            var violated = rule.HasBeenViolated(
+                //With Attribute routing, when getting the current route from the request, 
+                //it returns a reference to the original Route instead of a wrapper.
+                CreateRequestData().WithRoute(routeInternal),
+                new UserProvisions(new string[0], new string[0], "route1"));
+            
+            violated.ShouldBe(false);
+        }
+
+        private void SimulateAttributeRoutingWithOneRoute(RouteCollection routes, RouteBase route, string routeName = null)
+        {
+            var collectionRoute = new Mock<RouteBase>(); //would be a collection containing {route}
+            collectionRoute.Setup(r => r.GetRouteData(It.IsAny<HttpContextBase>()))
+                .Returns(new RouteData(route, null));
+
+            var linkGenerationRoute = new Mock<RouteBase>(); //would be a collection containing {route}
+            linkGenerationRoute.Setup(r => r.GetVirtualPath(It.IsAny<RequestContext>(), It.IsAny<RouteValueDictionary>()))
+                .Returns<RequestContext, RouteValueDictionary>(route.GetVirtualPath); //this route just delegates to the original route.
+
+            routes.Add(collectionRoute.Object); //used for httpContext -> route
+            routes.Add(routeName, linkGenerationRoute.Object); //used for Url.Action -> virtualPath
         }
     }
 }

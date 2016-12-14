@@ -12,7 +12,20 @@ namespace ReturnNull.CanonicalRoutes.Rules
             var routeName = provisions.RouteName;
             if (routeName == null) return false;
             var expectedRoute = RouteTable.Routes[routeName];
-            return expectedRoute != requestData.Route;
+            return !(
+                expectedRoute == requestData.Route ||
+                VirtualPathsMatch(expectedRoute, requestData)
+            );
+        }
+
+        private bool VirtualPathsMatch(RouteBase linkGenerationRoute, RequestData requestData)
+        {
+            var internalRoute = linkGenerationRoute.GetVirtualPath(
+                requestData.HttpContext.Request.RequestContext, 
+                requestData.RouteValues)
+                ?.Route;
+
+            return internalRoute == requestData.Route;
         }
 
         public void CorrectPlan(UrlPlan plan, RequestData requestData, UserProvisions provisions)

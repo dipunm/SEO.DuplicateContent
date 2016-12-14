@@ -17,9 +17,19 @@ namespace ReturnNull.CanonicalRoutes.Tests.AssertHelpers
         public RequestDataBuilder()
         {
             _values = new RouteValueDictionary();
+
             _mockHttpContext = new Mock<HttpContextBase>();
+            BuildHttpContextDependencies();
+
             _route = new Mock<RouteBase>();
             _uri = new Uri("http://www.fail-fast.net/");
+        }
+
+        private void BuildHttpContextDependencies()
+        {
+            var mockHttpRequest = new Mock<HttpRequestBase>();
+            _mockHttpContext.Setup(c => c.Request).Returns(mockHttpRequest.Object);
+            mockHttpRequest.Setup(r => r.RequestContext).Returns(new Mock<RequestContext>().Object);
         }
 
         public static implicit operator RequestData(RequestDataBuilder builder)

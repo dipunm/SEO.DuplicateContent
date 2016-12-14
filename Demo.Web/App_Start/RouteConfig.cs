@@ -13,6 +13,8 @@ namespace Demo.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapMvcAttributeRoutes();
+
             //preferred route for the homepage
             routes.MapRoute(
                 name: "another",

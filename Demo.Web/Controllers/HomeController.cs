@@ -32,5 +32,13 @@ namespace Demo.Web.Controllers
 
             return View();
         }
+
+        [Canonical(RouteName = "attribute")]
+        [Route("attribute-url", Name = "attribute")]
+        [Route("attribute-of-{id:int}")]
+        public ActionResult Attribute()
+        {
+            return Content("This is the Attribute Routed Page!");
+        }
     }
 }

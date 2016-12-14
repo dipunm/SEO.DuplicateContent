@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Routing;
 using ReturnNull.CanonicalRoutes.Rules.Abstract;
@@ -28,10 +29,12 @@ namespace ReturnNull.CanonicalRoutes.Models
             if (correctPath == null)
                 throw new InvalidOperationException("Unable to generate redirect url.");
 
+            var parts = correctPath.Split(new [] { '?' }, 2);
+
             return new UriBuilder(Authority)
             {
-                Path = correctPath,
-                Query = Query,
+                Path = parts.ElementAt(0),
+                Query = Query + parts.ElementAtOrDefault(1)
             }.Uri;
         }
     }

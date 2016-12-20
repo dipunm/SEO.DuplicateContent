@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using ReturnNull.CanonicalRoutes.Mvc;
 
 namespace Demo.Web
 {
@@ -13,7 +14,13 @@ namespace Demo.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapMvcAttributeRoutes();
+
+            routes.MapMvcAttributeRoutes(new CanonicalConstraintResolver()
+            {
+                CanonicalRouteConstraints = {{ "canonical", "true" }},
+                NeutralRouteConstraints = {{ "neutral", "true" }},
+                LegacyRouteConstraints = {{ "legacy", "true" }}
+            });
 
             //preferred route for the homepage
             routes.MapRoute(

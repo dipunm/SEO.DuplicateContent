@@ -78,6 +78,7 @@
     <Compile Include="Internal\AttributeHelper.cs" />
     <Compile Include="Mvc\CanonicalRoutes.cs" />
     <Compile Include="Mvc\CanonicalUrlExtensions.cs" />
+    <Compile Include="Mvc\ICanonicalConstraintResolver.cs" />
     <Compile Include="Rules\Abstract\SeoRequestRuleSnitch.cs" />
     <Compile Include="Models\RequestData.cs" />
     <Compile Include="Models\UserProvisions.cs" />

@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Routing;
-using System.Web.Mvc.Routing.Constraints;
 using System.Web.Routing;
 using ReturnNull.CanonicalRoutes.Internal;
 
@@ -46,21 +44,21 @@ namespace ReturnNull.CanonicalRoutes.Mvc
             {
                 if (isNeutralRoute)
                 {
-                    foreach (var constraint in _constraintResolver.NeutralRouteConstraints)
+                    foreach (var constraint in _constraintResolver.GetNeutralRouteConstraints(entry, actionDescriptor))
                     {
                         entry.Route.Constraints.Add(constraint.Key, constraint.Value);
                     }
                 }
                 else if (isCanonicalRoute(entry))
                 {
-                    foreach (var constraint in _constraintResolver.CanonicalRouteConstraints)
+                    foreach (var constraint in _constraintResolver.GetCanonicalRouteConstraints(entry, actionDescriptor))
                     {
                         entry.Route.Constraints.Add(constraint.Key, constraint.Value);
                     }
                 }
                 else
                 {
-                    foreach (var constraint in _constraintResolver.LegacyRouteConstraints)
+                    foreach (var constraint in _constraintResolver.GetLegacyRouteConstraints(entry, actionDescriptor))
                     {
                         entry.Route.Constraints.Add(constraint.Key, constraint.Value);
                     }
@@ -96,7 +94,7 @@ namespace ReturnNull.CanonicalRoutes.Mvc
 
                 if (actionsWhereNeutral.Any())
                 {
-                    foreach (var constraint in _constraintResolver.NeutralRouteConstraints)
+                    foreach (var constraint in _constraintResolver.GetNeutralRouteConstraints(entry, actionDescriptors.ToArray()))
                     {
                         entry.Route.Constraints.Add(constraint.Key, 
                             new TargetedConstraint( new List<Tuple<string, string>>(actionsWhereNeutral
@@ -107,7 +105,7 @@ namespace ReturnNull.CanonicalRoutes.Mvc
 
                 if (actionsWhereCanonical.Any())
                 {
-                    foreach (var constraint in _constraintResolver.CanonicalRouteConstraints)
+                    foreach (var constraint in _constraintResolver.GetCanonicalRouteConstraints(entry, actionDescriptors.ToArray()))
                     {
                         entry.Route.Constraints.Add(constraint.Key,
                             new TargetedConstraint(new List<Tuple<string, string>>(actionsWhereCanonical
@@ -118,7 +116,7 @@ namespace ReturnNull.CanonicalRoutes.Mvc
 
                 if (actionsWhereLegacy.Any())
                 {
-                    foreach (var constraint in _constraintResolver.LegacyRouteConstraints)
+                    foreach (var constraint in _constraintResolver.GetLegacyRouteConstraints(entry, actionDescriptors.ToArray()))
                     {
                         entry.Route.Constraints.Add(constraint.Key,
                             new TargetedConstraint(new List<Tuple<string, string>>(actionsWhereLegacy
@@ -128,48 +126,6 @@ namespace ReturnNull.CanonicalRoutes.Mvc
                 }
             }
             return routes;
-        }
-    }
-
-    public class TargetedConstraint : IRouteConstraint
-    {
-        private readonly object _constraint;
-        private readonly ICollection<Tuple<string, string>> _controllerActions;
-
-        public TargetedConstraint(ICollection<Tuple<string, string>> controllerActions, object constraint)
-        {
-            _constraint = constraint;
-            _controllerActions = controllerActions;
-        }
-
-        public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values,
-            RouteDirection routeDirection)
-        {
-            if(!_controllerActions.Any(pair => 
-                pair.Item1.Equals(values["controller"].ToString(), StringComparison.OrdinalIgnoreCase) &&
-                pair.Item2.Equals(values["action"].ToString(), StringComparison.OrdinalIgnoreCase)))
-                return true; //do not constrain.
-
-            var customConstraint = GetCustomConstraint(route, parameterName);
-            return customConstraint.Match(httpContext, route, parameterName, values, routeDirection);
-        }
-
-        private IRouteConstraint GetCustomConstraint(Route route, string parameterName)
-        {
-            var customConstraint = _constraint as IRouteConstraint;
-            if (customConstraint == null)
-            {
-                string constraintsRule = _constraint as string;
-                if (constraintsRule == null)
-                {
-                    throw new InvalidOperationException(
-                        $"Invalid route constraint for parameter '{parameterName}' on route with pattern '{route.Url}'. " +
-                        $"Route constraints must be a string or a custom constraint of type ICustomConstraint.");
-                }
-
-                customConstraint = new RegexRouteConstraint("^(" + constraintsRule + ")$");
-            }
-            return customConstraint;
         }
     }
 }

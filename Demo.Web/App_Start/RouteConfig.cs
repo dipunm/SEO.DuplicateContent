@@ -17,9 +17,9 @@ namespace Demo.Web
 
             routes.MapMvcAttributeRoutes(new CanonicalConstraintResolver()
             {
-                CanonicalRouteConstraints = {{ "canonical", "true" }},
-                NeutralRouteConstraints = {{ "neutral", "true" }},
-                LegacyRouteConstraints = {{ "legacy", "true" }}
+                CanonicalRouteConstraints = { { "canonical", new QsMatchIfPresentConstraint("true") } },
+                NeutralRouteConstraints = { { "neutral", new QsMatchIfPresentConstraint("true") } },
+                LegacyRouteConstraints = { { "legacy", new QsMatchIfPresentConstraint("true") } }
             });
 
             //preferred route for the homepage
@@ -34,6 +34,23 @@ namespace Demo.Web
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+        }
+    }
+
+    public class QsMatchIfPresentConstraint : IRouteConstraint
+    {
+        private readonly string _value;
+
+        public QsMatchIfPresentConstraint(string value)
+        {
+            _value = value;
+        }
+
+        public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values,
+            RouteDirection routeDirection)
+        {
+            return !httpContext.Request.QueryString.AllKeys.Contains(parameterName) 
+                || httpContext.Request.QueryString[parameterName].Equals(_value, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

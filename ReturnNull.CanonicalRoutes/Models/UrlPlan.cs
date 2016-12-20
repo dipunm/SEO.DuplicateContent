@@ -29,12 +29,13 @@ namespace ReturnNull.CanonicalRoutes.Models
             if (correctPath == null)
                 throw new InvalidOperationException("Unable to generate redirect url.");
 
-            var parts = correctPath.Split(new [] { '?' }, 2);
+            var parts = correctPath.Split(new[] { '?' }, 2);
 
             return new UriBuilder(Authority)
             {
                 Path = parts.ElementAt(0),
-                Query = Query + parts.ElementAtOrDefault(1)
+                Query = string.Join("&", new[] { Query, parts.ElementAtOrDefault(1) }
+                    .Where(q => !string.IsNullOrEmpty(q)))
             }.Uri;
         }
     }

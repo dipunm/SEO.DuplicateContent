@@ -76,6 +76,7 @@
     <Compile Include="Configuration\SeoRequestRulesetCollection.cs" />
     <Compile Include="Helpers\RequestHelpers.cs" />
     <Compile Include="Internal\AttributeHelper.cs" />
+    <Compile Include="Mvc\CanonicalRoutes.cs" />
     <Compile Include="Mvc\CanonicalUrlExtensions.cs" />
     <Compile Include="Rules\Abstract\SeoRequestRuleSnitch.cs" />
     <Compile Include="Models\RequestData.cs" />

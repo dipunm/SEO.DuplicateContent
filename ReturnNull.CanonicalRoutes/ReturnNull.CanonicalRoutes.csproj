@@ -76,10 +76,11 @@
     <Compile Include="Configuration\SeoRequestRulesetCollection.cs" />
     <Compile Include="Helpers\RequestHelpers.cs" />
     <Compile Include="Internal\AttributeHelper.cs" />
-    <Compile Include="Mvc\CanonicalRoutes.cs" />
+    <Compile Include="Mvc\RouteConstraints\CanonicallyConstrainedDirectRouteProvider.cs" />
+    <Compile Include="Mvc\RouteConstraints\CanonicalRouteExtensions.cs" />
     <Compile Include="Mvc\CanonicalUrlExtensions.cs" />
-    <Compile Include="Mvc\ICanonicalConstraintResolver.cs" />
-    <Compile Include="Mvc\TargetedConstraint.cs" />
+    <Compile Include="Mvc\RouteConstraints\CanonicalConstraintResolver.cs" />
+    <Compile Include="Mvc\RouteConstraints\TargetedConstraint.cs" />
     <Compile Include="Rules\Abstract\SeoRequestRuleSnitch.cs" />
     <Compile Include="Models\RequestData.cs" />
     <Compile Include="Models\UserProvisions.cs" />

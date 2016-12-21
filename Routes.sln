@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReturnNull.CanonicalRoutes", "ReturnNull.CanonicalRoutes\ReturnNull.CanonicalRoutes.csproj", "{D757A746-B28A-4B19-832F-B17144AB2051}"
 EndProject
@@ -11,6 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Web", "Demo.Web\Demo.W
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{45ABDB1A-FC06-4270-9C12-5B192F589805}"
 	ProjectSection(SolutionItems) = preProject
+		LICENCE = LICENCE
 		readme.md = readme.md
 		rules.md = rules.md
 	EndProjectSection

@@ -5,11 +5,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">  
   <metadata>
     <id>ReturnNull.Seo.DuplicateContent</id>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
     <authors>dipunm</authors>
     <description>Allows you to handle duplicate urls using permanent redirects and canonical meta tags.</description>
     <language>en-GB</language>
     <projectUrl>https://github.com/dipunm/SEO.DuplicateContent</projectUrl>
-    <licenseUrl>https://github.com/dipunm/SEO.DuplicateContent/blob/master/LICENSE</licenseUrl>
+    <licenseUrl>https://github.com/dipunm/SEO.DuplicateContent/blob/master/LICENCE</licenseUrl>
   </metadata>
 </package>

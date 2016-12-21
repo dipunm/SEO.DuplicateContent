@@ -1,10 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Mvc.Routing;
 
-namespace ReturnNull.CanonicalRoutes.Mvc
+namespace ReturnNull.CanonicalRoutes.Mvc.RouteConstraints
 {
+    /// <summary>
+    /// When implemented, will source and resolve route constraints for each route
+    /// dynamically based on the route, the action(s) on which we are going to apply 
+    /// the constraints for, and whether we identify it as a Canonical, Neutral or Legacy 
+    /// route resolution. 
+    /// </summary>
     public interface ICanonicalConstraintResolver
     {
         /// <summary>

@@ -5,27 +5,27 @@ using System.Web;
 using System.Web.Mvc.Routing.Constraints;
 using System.Web.Routing;
 
-namespace ReturnNull.CanonicalRoutes.Mvc
+namespace ReturnNull.CanonicalRoutes.Mvc.RouteConstraints
 {
     /// <summary>
-    /// Wraps a constraint and applies it only if the action and controller that will be matched
-    /// is listed in the route parameters
+    /// Wraps a constraint and applies it only if the targeted action and controller
+    /// is expected.
     /// </summary>
     public class TargetedConstraint : IRouteConstraint
     {
         private readonly object _constraint;
-        private readonly ICollection<Tuple<string, string>> _controllerActions;
+        private readonly ICollection<Tuple<string, string>> _expectedControllerActionPairs;
 
-        public TargetedConstraint(ICollection<Tuple<string, string>> controllerActions, object constraint)
+        public TargetedConstraint(ICollection<Tuple<string, string>> expectedControllerActionPairs, object constraint)
         {
             _constraint = constraint;
-            _controllerActions = controllerActions;
+            _expectedControllerActionPairs = expectedControllerActionPairs;
         }
 
         public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values,
             RouteDirection routeDirection)
         {
-            if(!_controllerActions.Any(pair => 
+            if(!_expectedControllerActionPairs.Any(pair => 
                 pair.Item1.Equals(values["controller"].ToString(), StringComparison.OrdinalIgnoreCase) &&
                 pair.Item2.Equals(values["action"].ToString(), StringComparison.OrdinalIgnoreCase)))
                 return true; //do not constrain.

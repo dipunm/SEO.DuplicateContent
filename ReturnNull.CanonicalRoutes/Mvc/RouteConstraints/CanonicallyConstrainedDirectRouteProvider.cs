@@ -1,29 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Mvc.Routing;
-using System.Web.Routing;
 using ReturnNull.CanonicalRoutes.Internal;
 
-namespace ReturnNull.CanonicalRoutes.Mvc
+namespace ReturnNull.CanonicalRoutes.Mvc.RouteConstraints
 {
-    public static class CanonicalRoutes
-    {
-        public static void MapMvcAttributeRoutes(this RouteCollection routes,
-            ICanonicalConstraintResolver constraintResolver)
-        {
-            routes.MapMvcAttributeRoutes(new CanonicalRouteProvider(constraintResolver));
-        }
-    }
-
-    public class CanonicalRouteProvider : DefaultDirectRouteProvider
+    /// <summary>
+    /// Extends the DefaultDirectRouteProvider and applies appropriate IRouteConstraints to the 
+    /// provided Routes using the supplied instance of ICanonicalConstraintResolver.
+    /// </summary>
+    public class CanonicallyConstrainedDirectRouteProvider : DefaultDirectRouteProvider
     {
         private readonly ICanonicalConstraintResolver _constraintResolver;
 
-        public CanonicalRouteProvider(ICanonicalConstraintResolver constraintResolver)
+        public CanonicallyConstrainedDirectRouteProvider(ICanonicalConstraintResolver constraintResolver)
         {
             _constraintResolver = constraintResolver;
         }
@@ -80,7 +72,7 @@ namespace ReturnNull.CanonicalRoutes.Mvc
             }).ToArray();
             
             var actionsWhereNeutral = canonicalActions.Where(a =>
-                        string.IsNullOrEmpty(a.RouteName)).ToArray();
+                    string.IsNullOrEmpty(a.RouteName)).ToArray();
 
             foreach (var entry in routes)
             {
@@ -98,8 +90,8 @@ namespace ReturnNull.CanonicalRoutes.Mvc
                     {
                         entry.Route.Constraints.Add(constraint.Key, 
                             new TargetedConstraint( new List<Tuple<string, string>>(actionsWhereNeutral
-                            .Select(a => new Tuple<string, string>(a.ActionDescriptor.ControllerDescriptor.ControllerName, a.ActionDescriptor.ActionName))), 
-                            constraint.Value));
+                                    .Select(a => new Tuple<string, string>(a.ActionDescriptor.ControllerDescriptor.ControllerName, a.ActionDescriptor.ActionName))), 
+                                constraint.Value));
                     }
                 }
 
@@ -109,8 +101,8 @@ namespace ReturnNull.CanonicalRoutes.Mvc
                     {
                         entry.Route.Constraints.Add(constraint.Key,
                             new TargetedConstraint(new List<Tuple<string, string>>(actionsWhereCanonical
-                            .Select(a => new Tuple<string, string>(a.ActionDescriptor.ControllerDescriptor.ControllerName, a.ActionDescriptor.ActionName))), 
-                            constraint.Value));
+                                    .Select(a => new Tuple<string, string>(a.ActionDescriptor.ControllerDescriptor.ControllerName, a.ActionDescriptor.ActionName))), 
+                                constraint.Value));
                     }
                 }
 
@@ -120,8 +112,8 @@ namespace ReturnNull.CanonicalRoutes.Mvc
                     {
                         entry.Route.Constraints.Add(constraint.Key,
                             new TargetedConstraint(new List<Tuple<string, string>>(actionsWhereLegacy
-                            .Select(a => new Tuple<string, string>(a.ActionDescriptor.ControllerDescriptor.ControllerName, a.ActionDescriptor.ActionName))), 
-                            constraint.Value));
+                                    .Select(a => new Tuple<string, string>(a.ActionDescriptor.ControllerDescriptor.ControllerName, a.ActionDescriptor.ActionName))), 
+                                constraint.Value));
                     }
                 }
             }

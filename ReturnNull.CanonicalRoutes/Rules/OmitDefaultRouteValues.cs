@@ -12,12 +12,17 @@ namespace ReturnNull.CanonicalRoutes.Rules
             var urlPath = requestData.RequestUri.AbsolutePath;
             if (urlPath == "/") return false;
 
-            var generatedPath = "/" + requestData.Route.GetVirtualPath(
+            var virtualPath = requestData.Route.GetVirtualPath(
                 requestData.HttpContext.Request.RequestContext,
-                requestData.RouteValues)?.VirtualPath;
+                requestData.RouteValues);
 
-            if (string.IsNullOrEmpty(generatedPath))
-                throw new InvalidOperationException("Provided route was unable to generate a url from the given parameters.");
+            if (virtualPath == null)
+            {
+                // unable to validate url, skip...
+                return false;
+            }
+
+            var generatedPath = "/" + virtualPath.VirtualPath;
 
             return !urlPath.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries)
                 .SequenceEqual(generatedPath.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries), 
